@@ -1,4 +1,4 @@
-package com.example.Poo2025;
+package ar.edu.unnoba.poo2025.torneos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
