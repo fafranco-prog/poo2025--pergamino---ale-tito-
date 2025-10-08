@@ -15,7 +15,7 @@ public class Inscripcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idInscripcion;
 
     private LocalDateTime fechaInscripcion;
 
@@ -23,10 +23,10 @@ public class Inscripcion {
     private BigDecimal precioPagado;
 
     @ManyToOne
-    @JoinColumn(name = "participante_id", nullable = false)
+    @JoinColumn(name = "idParticipante", nullable = false)
     private Participante participante;
 
     @ManyToOne
-    @JoinColumn(name = "competencia_id", nullable = false)
+    @JoinColumn(name = "idCompetencia", nullable = false)
     private Competencia competencia;
 }
