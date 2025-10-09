@@ -16,7 +16,7 @@ public class Competencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCompetencia;
+    private Long id;
 
     private String nombre;
 
@@ -26,7 +26,7 @@ public class Competencia {
     private Integer cupo;
 
     @ManyToOne
-    @JoinColumn(name = "idTorneo", nullable = false)
+    @JoinColumn(name = "id_torneo", nullable = false)
     private Torneo torneo;
 
     @OneToMany(mappedBy = "competencia", cascade = CascadeType.ALL, orphanRemoval = true)

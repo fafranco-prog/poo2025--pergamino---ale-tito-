@@ -16,8 +16,7 @@ public class Torneo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long idTorneo;
+    private Long id;
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;
