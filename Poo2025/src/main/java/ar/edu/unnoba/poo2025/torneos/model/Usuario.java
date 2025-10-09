@@ -1,20 +1,21 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
 public abstract class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
     private String contraseña;
-    
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getContraseña() {
-        return contraseña;
-    }
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-    
-} 
+
+}

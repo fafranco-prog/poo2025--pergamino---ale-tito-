@@ -1,45 +1,24 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "participante")
-public class Participante extends Usuario{
-    
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false)
-     
-    private Long idParticipante;
+@Table(name = "participantes")
+@PrimaryKeyJoinColumn(name = "id") // Usa Usuario.id como id primario
+@Getter
+@Setter
+public class Participante extends Usuario {
+
     private String nombre;
     private String apellido;
-    private String tipo_dni;
-    private int numero_dni;
-    
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public String getApellido() {
-        return apellido;
-    }
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-    public String getTipo_dni() {
-        return tipo_dni;
-    }
-    public void setTipo_dni(String tipo_dni) {
-        this.tipo_dni = tipo_dni;
-    }
-    public int getNumero_dni() {
-        return numero_dni;
-    }
-    public void setNumero_dni(int numero_dni) {
-        this.numero_dni = numero_dni;
-    }
-    
-   
+    private String tipoDni;
+    private int numeroDni;
+
+    @OneToMany(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inscripcion> inscripciones = new ArrayList<>();
 }
