@@ -12,11 +12,11 @@ import java.util.List;
 @Table(name = "competencias")
 @Getter
 @Setter
-public class Competencia {
+public class CompetenciaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCompetencia;
+    private Long id;
 
     private String nombre;
 
@@ -27,8 +27,8 @@ public class Competencia {
 
     @ManyToOne
     @JoinColumn(name = "idTorneo", nullable = false)
-    private Torneo torneo;
-
+    private TorneoModel torneo;
+ 
     @OneToMany(mappedBy = "competencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Inscripcion> inscripciones = new ArrayList<>();
+    private List<InscripcionModel> inscripciones = new ArrayList<>();
 }

@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Table(name = "inscripciones")
 @Getter
 @Setter
-public class Inscripcion {
+public class InscripcionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idInscripcion;
+    private Long id;
 
     private LocalDateTime fechaInscripcion;
 
@@ -24,9 +24,9 @@ public class Inscripcion {
 
     @ManyToOne
     @JoinColumn(name = "idParticipante", nullable = false)
-    private Participante participante;
+    private ParticipanteModel participante;
 
     @ManyToOne
     @JoinColumn(name = "idCompetencia", nullable = false)
-    private Competencia competencia;
+    private CompetenciaModel competencia;
 }
