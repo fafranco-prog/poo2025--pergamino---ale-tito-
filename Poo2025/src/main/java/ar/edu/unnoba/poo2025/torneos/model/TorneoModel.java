@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "torneos")
@@ -18,12 +21,18 @@ public class TorneoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    private String nombre;
-    private String descripcion;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private Boolean publicado;
 
-    @OneToMany(mappedBy = "torneo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(nullable=false)
+    private String nombre;
+    @Column(nullable=false)
+    private String descripcion;
+    @Column(nullable=false)
+    private Date fechaIni;
+    private Date fechaFin;
+    @Column(nullable=false)
+    private Boolean publicado;
+ 
+    @OneToMany(mappedBy = "torneo", cascade = CascadeType.ALL, orphanRemoval = true)  
+    @JsonManagedReference("torneo-competencia")
     private List<CompetenciaModel> competencias = new ArrayList<>();
 }

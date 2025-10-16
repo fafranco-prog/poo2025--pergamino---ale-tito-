@@ -5,13 +5,10 @@ import lombok.Setter;
 import lombok.Getter;
   
 @Entity
-@Table(name = "administrador")
+//@Table(name = "administrador")
+@DiscriminatorValue("ADMIN") // discriminante para eleccion de clase
 @Getter
 @Setter
 public class AdministradorModel extends UsuarioModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false)
-    private Long id;
-                              
+        //nada de momento  
 }

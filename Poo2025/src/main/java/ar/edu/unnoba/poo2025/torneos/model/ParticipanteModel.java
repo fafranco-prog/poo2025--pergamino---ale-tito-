@@ -5,21 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "participante")
+//@Table(name = "participante")
+@DiscriminatorValue("PARTICIPANTE")
 @Setter
 @Getter
 public class ParticipanteModel extends UsuarioModel{
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false)
-     
-    private Long id;
+    @Column(nullable=true)
     private String nombre;
+    @Column(nullable=true)
     private String apellido;
-    private String tipo_dni;
-    private int numero_dni;
+    @Column(nullable=true)
+    private String tipoDni;
+    @Column(nullable=true) 
+    private Integer numeroDni;
     
-   
-   
 }
