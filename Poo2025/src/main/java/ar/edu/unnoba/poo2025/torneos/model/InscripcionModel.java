@@ -5,28 +5,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "inscripciones")
 @Getter
 @Setter
-public class Inscripcion {
-
+public class InscripcionModel {
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fechaInscripcion;
+    @Column(nullable=false)
+    private Date fechaInscripcion;
 
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 10, scale = 2, nullable=false)
     private BigDecimal precioPagado;
 
     @ManyToOne
     @JoinColumn(name = "id_participante", nullable = false)
-    private Participante participante;
+    private ParticipanteModel participante;
 
     @ManyToOne
     @JoinColumn(name = "id_competencia", nullable = false)
-    private Competencia competencia;
+    @JsonBackReference("competencia-inscripcion")
+    private CompetenciaModel competencia;
 }
