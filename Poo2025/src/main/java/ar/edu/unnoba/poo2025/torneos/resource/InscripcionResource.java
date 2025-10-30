@@ -1,4 +1,4 @@
-package ar.edu.unnoba.poo2025.torneos.controller;
+package ar.edu.unnoba.poo2025.torneos.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/inscripciones")
-public class InscripcionController {
+public class InscripcionResource {
 
     @Autowired
     private InscripcionService inscripcionService;
@@ -35,7 +35,7 @@ public class InscripcionController {
     public void eliminarInscripcion(@PathVariable Long id) {
         inscripcionService.eliminar(id);
     }
- 
+
     @PutMapping("/updateInscripcion/{id}")
     public void actualizarInscripcion(@PathVariable Long id, @RequestBody InscripcionModel nuevosDatos) {
         inscripcionService.actualizar(id, nuevosDatos);

@@ -1,4 +1,4 @@
-package ar.edu.unnoba.poo2025.torneos.controller;
+package ar.edu.unnoba.poo2025.torneos.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/competencias")
-public class CompetenciaController {
+public class CompetenciaResource {
 
     @Autowired
     private CompetenciaService competenciaService;
@@ -30,7 +30,7 @@ public class CompetenciaController {
     public CompetenciaModel crearCompetencia(@RequestBody CompetenciaModel competencia) {
         return competenciaService.crear(competencia);
     }
-   
+
     @DeleteMapping("/delCompetencia/{id}")
     public void eliminarCompetencia(@PathVariable Long id) {
         competenciaService.eliminar(id);
@@ -41,4 +41,3 @@ public class CompetenciaController {
         competenciaService.actualizar(id, nuevosDatos);
     }
 }
- 
