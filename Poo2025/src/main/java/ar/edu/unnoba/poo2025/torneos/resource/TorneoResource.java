@@ -1,4 +1,4 @@
-package ar.edu.unnoba.poo2025.torneos.controller;
+package ar.edu.unnoba.poo2025.torneos.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/torneos")
-public class TorneoController {
+public class TorneoResource {
 
     @Autowired
     private TorneoService torneoService;
@@ -30,7 +30,7 @@ public class TorneoController {
     public TorneoModel crearTorneo(@RequestBody TorneoModel torneo) {
         return torneoService.crear(torneo);
     }
- 
+
     @DeleteMapping("/delTorneo/{id}")
     public void eliminarTorneo(@PathVariable Long id) {
         torneoService.eliminar(id);
@@ -41,4 +41,3 @@ public class TorneoController {
         torneoService.actualizar(id, nuevosDatos);
     }
 }
-

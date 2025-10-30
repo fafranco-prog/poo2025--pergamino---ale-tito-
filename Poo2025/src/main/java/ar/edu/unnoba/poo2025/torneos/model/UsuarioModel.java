@@ -13,24 +13,20 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
- 
 @Entity
 @Table(name = "usuarios")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipo_usuario", discriminatorType=DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Setter
 @Getter
 public abstract class UsuarioModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false) 
-    
+    @Column(unique = true, nullable = false)
     private Long id;
-    @Column(nullable=false)
+    @Column(unique = true, nullable = false)
     private String email;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String contraseña;
-    
-
-    
-} 
+}

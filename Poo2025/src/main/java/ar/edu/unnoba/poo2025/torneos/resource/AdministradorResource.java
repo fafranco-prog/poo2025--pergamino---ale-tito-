@@ -1,4 +1,5 @@
-package ar.edu.unnoba.poo2025.torneos.controller;
+package ar.edu.unnoba.poo2025.torneos.resource;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import ar.edu.unnoba.poo2025.torneos.service.AdministradorService;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
 
-
-                
-                          
 @RestController
 @RequestMapping("/admins")
-public class AdministradorController {
+public class AdministradorResource {
 
     @Autowired
     private AdministradorService adminService;
@@ -22,6 +20,7 @@ public class AdministradorController {
     public List<AdministradorModel> getAdmins() {
         return adminService.obtenerAdministrador();
     }
+
     @GetMapping("/getAdminPorId/{id}")
     public Optional<AdministradorModel> getAdminPorId(@PathVariable Long id) {
         return adminService.obtenerPorId(id);
@@ -41,5 +40,4 @@ public class AdministradorController {
     public void updateAdmin(@PathVariable Long id, @RequestBody AdministradorModel adminActualizado) {
         adminService.actualizar(id, adminActualizado);
     }
-} 
-
+}
