@@ -13,6 +13,8 @@ public interface ParticipanteService {
 
     public void crear(ParticipanteModel participant) throws Exception;
 
+    public ParticipanteModel obtenerPorEmail(String email);
+
     void eliminar(Long id);
 
     void actualizar(Long id, ParticipanteModel nuevosDatos);
