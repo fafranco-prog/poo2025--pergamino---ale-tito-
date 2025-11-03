@@ -60,4 +60,9 @@ public class ParticipanteServiceImp implements ParticipanteService {
             participanteRepo.save(existente);
         }
     }
+
+    @Override
+    public ParticipanteModel obtenerPorEmail(String email) {
+        return participanteRepo.buscarPorEmail(email).orElse(null);
+    }
 }
