@@ -1,10 +1,12 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 import ar.edu.unnoba.poo2025.torneos.util.JwtTokenUtil;
 
+@Service
 public class AuthotizationServiceImp implements AuthorizationService {
 
     @Autowired
@@ -15,7 +17,7 @@ public class AuthotizationServiceImp implements AuthorizationService {
     @Override
     public ParticipanteModel authorize(String token) throws Exception {
 
-        if (jwtTokenUtil.validarToken(token)) {
+        if (!jwtTokenUtil.validarToken(token)) {
             throw new Exception("El token no es valido");
         }
         String email = jwtTokenUtil.getSubject(token);
@@ -26,3 +28,4 @@ public class AuthotizationServiceImp implements AuthorizationService {
         return participante;
     }
 }
+ 

@@ -18,7 +18,7 @@ public class JwtTokenUtil {
 
     // 10 dias * 24 horas * 60 minutos * 60 segundos * 1000 milisegundos
     private static final long TIEMPO_DE_EXPIRACION = 10 * 24 * 60 * 60 * 1000;
-    private static final String PREFIJO = "Bearer";
+    private static final String PREFIJO = "Bearer ";
 
     public String generarToken(String subject) {
         Algorithm algorithm = Algorithm.HMAC512(secret);
@@ -27,13 +27,13 @@ public class JwtTokenUtil {
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TIEMPO_DE_EXPIRACION))
                 .sign(algorithm);
-        return PREFIJO + token;
-    }
+        return token;
+    } 
 
     public boolean validarToken(String token) {
         if (token == null || !token.startsWith(PREFIJO)) {
             return false;
-        }
+        }  
         try {
             String jwtToken = token.substring(PREFIJO.length());
             Algorithm algorithm = Algorithm.HMAC512(secret);

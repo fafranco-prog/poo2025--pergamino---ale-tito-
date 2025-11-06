@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponseDTO;
+import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
 @Configuration
 public class ModelMapperConfig {
@@ -27,6 +29,16 @@ public class ModelMapperConfig {
         typeMapParticipanteFromAuthenticationDTO.addMappings(mapper
                 -> mapper.map(AuthenticationRequestDTO::getPassword, ParticipanteModel::setContraseña));
 
+
+        TypeMap<TorneoModel, TorneoResponseDTO> torneoMap =
+                modelMapper.createTypeMap(TorneoModel.class, TorneoResponseDTO.class);
+           
+        
+        torneoMap.addMappings(mapper ->{
+            mapper.map(TorneoModel::getId, TorneoResponseDTO::setId);
+            mapper.map(TorneoModel::getNombre, TorneoResponseDTO::setNombre);
+            mapper.map(TorneoModel::getDescripcion, TorneoResponseDTO::setDescripcion);
+        });    
         return modelMapper;
     }
 }

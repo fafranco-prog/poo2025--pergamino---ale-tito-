@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ParticipanteModel extends UsuarioModel{
-    
+
     @Column(nullable=true)
     private String nombre;
     @Column(nullable=true)
