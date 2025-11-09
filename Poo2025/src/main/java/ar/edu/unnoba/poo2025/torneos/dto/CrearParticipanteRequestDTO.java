@@ -9,5 +9,5 @@ public class CrearParticipanteRequestDTO {
 
     private String email;
     private String password;
-
+ 
 }
