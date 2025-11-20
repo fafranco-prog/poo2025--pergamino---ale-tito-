@@ -22,12 +22,13 @@ public class TorneoModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(unique=true, nullable=false)      
     private String nombre;
     @Column(nullable=false)
     private String descripcion;
     @Column(nullable=false)
     private Date fechaIni;
+
     private Date fechaFin;
     @Column(nullable=false)
     private Boolean publicado;

@@ -7,6 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
+import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
+import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.repository.TorneoRepository;
  
@@ -33,16 +37,12 @@ public class TorneoServiceImp implements TorneoService {
             } 
         }
         return aux;
-    }
+    }    
        
     @Override
     public Optional<TorneoModel> obtenerPorId(Long id) {
         return torneoRepository.findById(id);
     }
-    @Override
-    public TorneoModel crear(TorneoModel torneo) {
-        return torneoRepository.save(torneo);
-    } 
     @Override
     public void eliminar(Long id) {
         torneoRepository.deleteById(id);
@@ -59,4 +59,47 @@ public class TorneoServiceImp implements TorneoService {
             torneoRepository.save(existente);
         }
     } 
+
+
+    //TP6 
+    @Override
+    public List<TorneoModel> getTorneosOrdenadosDesc(){
+        List<TorneoModel> aux = new ArrayList<>(obtenerTorneos());
+        aux.sort((t1,t2) -> t2.getFechaIni().compareTo(t1.getFechaIni()));
+        return aux;     
+    }
+    @Override
+    public TorneoDetalleDTO obtenerTorneoDetalleDTO(Long torneoId)throws Exception{
+        TorneoModel torneo = torneoRepository.findById(torneoId)
+        .orElseThrow(()-> new Exception("torneo no encontrado"));
+
+        int totalInscripciones = 0;
+        double montoTotal = 0;
+        if(torneo.getCompetencias()!=null){
+            for(CompetenciaModel c : torneo.getCompetencias()){
+                if(c.getInscripciones()!=null){
+                    totalInscripciones += c.getInscripciones().size();
+                    for(InscripcionModel i : c.getInscripciones()){
+                        montoTotal+=i.getPrecioPagado();
+                        }
+                    }
+                }  
+            }
+        TorneoDetalleDTO dto = new TorneoDetalleDTO();
+        dto.setId(torneo.getId());
+        dto.setNombre(torneo.getNombre());
+        dto.setPublicado(torneo.getPublicado());
+        dto.setTotalInscripciones(totalInscripciones);
+        dto.setMontoTotal(montoTotal);
+        
+        return dto;
+    } 
+
+    @Override
+    public void crear( TorneoModel torneo) throws Exception{
+        if(torneoRepository.buscarPorNombre(torneo.getNombre()).isPresent()){
+            throw new Exception("ya existe el torneo con ese nombre");
+        }        
+        torneoRepository.save(torneo);    
+    }   
 }
