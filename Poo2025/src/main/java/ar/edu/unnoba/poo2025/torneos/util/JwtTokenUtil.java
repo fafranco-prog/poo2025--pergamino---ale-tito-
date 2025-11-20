@@ -27,29 +27,42 @@ public class JwtTokenUtil {
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TIEMPO_DE_EXPIRACION))
                 .sign(algorithm);
+        return PREFIJO+token; 
+    }  
+
+    //se usa para sacar el bearer sin tener que implementarlo en cada endpoint
+    private String limpiarToken(String token){
+        if(token != null && token.startsWith(PREFIJO)){
+            return token.substring(PREFIJO.length());
+        }
         return token;
-    } 
+    }
 
     public boolean validarToken(String token) {
-        if (token == null || !token.startsWith(PREFIJO)) {
-            return false;
-        }  
+
+        //if (token == null || !token.startsWith(PREFIJO)) {
+        //    return false;
+        //}  
         try {
-            String jwtToken = token.substring(PREFIJO.length());
+            String jwtToken = limpiarToken(token);
+            if (jwtToken == null ) return false;
             Algorithm algorithm = Algorithm.HMAC512(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();
             verifier.verify(jwtToken);
             return true;
         } catch (JWTVerificationException exception) {
             return false;
-        }
+        } 
     }
 
     public String getSubject(String token) {
-        if (token == null || !token.startsWith(PREFIJO)) {
-            return null;
-        }
-        String jwtToken = token.substring(PREFIJO.length());
+        //if (token == null || !token.startsWith(PREFIJO)) {
+        //    return null;
+        //}
+
+        //String jwtToken = token.substring(PREFIJO.length());
+        String jwtToken = limpiarToken(token);
+        if (jwtToken == null) return null;
         DecodedJWT decodedJWT = JWT.decode(jwtToken);
         return decodedJWT.getSubject();
     }

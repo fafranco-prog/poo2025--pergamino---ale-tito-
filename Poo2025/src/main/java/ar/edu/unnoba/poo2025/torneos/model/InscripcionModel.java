@@ -22,8 +22,8 @@ public class InscripcionModel {
     @Column(nullable=false)
     private Date fechaInscripcion;
 
-    @Column(precision = 10, scale = 2, nullable=false)
-    private BigDecimal precioPagado;
+    @Column(nullable=false)  
+    private double precioPagado;
 
     @ManyToOne
     @JoinColumn(name = "id_participante", nullable = false)
