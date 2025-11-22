@@ -1,10 +1,10 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
@@ -13,7 +13,7 @@ import ar.edu.unnoba.poo2025.torneos.repository.TorneoRepository;
 
 @Service
 public class CompetenciaService {
-     
+
     @Autowired
     private TorneoRepository torneoRepository;
 
@@ -45,10 +45,10 @@ public class CompetenciaService {
             existente.setCupos(nuevosDatos.getCupos());
             existente.setPrecioBase(nuevosDatos.getPrecioBase());
             existente.setTorneo(nuevosDatos.getTorneo());
-            
+
             TorneoModel torneo = torneoRepository.findById(nuevosDatos.getTorneo().getId()).orElse(null);
             existente.setTorneo(torneo);
             competenciaRepository.save(existente);
         }
-    } 
+    }
 }

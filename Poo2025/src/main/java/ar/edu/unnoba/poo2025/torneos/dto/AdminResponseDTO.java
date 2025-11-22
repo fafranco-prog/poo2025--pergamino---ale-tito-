@@ -6,6 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AdminResponseDTO {
+
     private long id;
     private String email;
-} 
+}

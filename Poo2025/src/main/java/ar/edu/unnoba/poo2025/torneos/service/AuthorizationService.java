@@ -5,6 +5,9 @@ import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 
 public interface AuthorizationService {
 
-    public ParticipanteModel authorize(String token) throws Exception;
-    public AdministradorModel authorizeAdmin(String token) throws Exception;
-} 
+    ParticipanteModel authorize(String token);
+
+    AdministradorModel authorizeAdmin(String token);
+
+    String getSubjectFromToken(String token);
+}

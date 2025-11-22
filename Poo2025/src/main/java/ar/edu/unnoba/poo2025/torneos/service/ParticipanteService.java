@@ -1,7 +1,6 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 
@@ -9,9 +8,9 @@ public interface ParticipanteService {
 
     List<ParticipanteModel> obtenerParticipantes();
 
-    Optional<ParticipanteModel> obtenerPorId(Long id);
+    ParticipanteModel obtenerPorId(Long id);
 
-    public void crear(ParticipanteModel participant) throws Exception;
+    public void crear(ParticipanteModel participant);
 
     public ParticipanteModel obtenerPorEmail(String email);
 

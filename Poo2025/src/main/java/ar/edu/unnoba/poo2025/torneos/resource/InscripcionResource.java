@@ -1,43 +1,43 @@
-package ar.edu.unnoba.poo2025.torneos.resource;
+// package ar.edu.unnoba.poo2025.torneos.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.web.bind.annotation.*;
 
-import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
-import ar.edu.unnoba.poo2025.torneos.service.InscripcionService;
+// import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
+// import ar.edu.unnoba.poo2025.torneos.service.InscripcionService;
 
-import java.util.List;
-import java.util.Optional;
+// import java.util.List;
+// import java.util.Optional;
 
-@RestController
-@RequestMapping("/inscripciones")
-public class InscripcionResource {
+// @RestController
+// @RequestMapping("/inscripciones")
+// public class InscripcionResource {
 
-    @Autowired
-    private InscripcionService inscripcionService;
+//     @Autowired
+//     private InscripcionService inscripcionService;
 
-    @GetMapping("/getInscripciones")
-    public List<InscripcionModel> getInscripciones() {
-        return inscripcionService.obtenerInscripciones();
-    }
+//     @GetMapping("/getInscripciones")
+//     public List<InscripcionModel> getInscripciones() {
+//         return inscripcionService.obtenerInscripciones();
+//     }
 
-    @GetMapping("/getInscripcionPorId/{id}")
-    public Optional<InscripcionModel> getInscripcionPorId(@PathVariable Long id) {
-        return inscripcionService.obtenerPorId(id);
-    }
+//     @GetMapping("/getInscripcionPorId/{id}")
+//     public Optional<InscripcionModel> getInscripcionPorId(@PathVariable Long id) {
+//         return inscripcionService.obtenerPorId(id);
+//     }
 
-    @PostMapping("/addInscripcion")
-    public InscripcionModel crearInscripcion(@RequestBody InscripcionModel inscripcion) {
-        return inscripcionService.crear(inscripcion);
-    }
+//     @PostMapping("/addInscripcion")
+//     public InscripcionModel crearInscripcion(@RequestBody InscripcionModel inscripcion) {
+//         return inscripcionService.crear(inscripcion);
+//     }
 
-    @DeleteMapping("/delInscripcion/{id}")
-    public void eliminarInscripcion(@PathVariable Long id) {
-        inscripcionService.eliminar(id);
-    }
+//     @DeleteMapping("/delInscripcion/{id}")
+//     public void eliminarInscripcion(@PathVariable Long id) {
+//         inscripcionService.eliminar(id);
+//     }
 
-    @PutMapping("/updateInscripcion/{id}")
-    public void actualizarInscripcion(@PathVariable Long id, @RequestBody InscripcionModel nuevosDatos) {
-        inscripcionService.actualizar(id, nuevosDatos);
-    }
-}
+//     @PutMapping("/updateInscripcion/{id}")
+//     public void actualizarInscripcion(@PathVariable Long id, @RequestBody InscripcionModel nuevosDatos) {
+//         inscripcionService.actualizar(id, nuevosDatos);
+//     }
+// }

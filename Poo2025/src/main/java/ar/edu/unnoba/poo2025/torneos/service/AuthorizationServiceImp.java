@@ -18,30 +18,25 @@ public class AuthorizationServiceImp implements AuthorizationService {
     private AdministradorServiceImp adminService;
 
     @Override
-    public ParticipanteModel authorize(String token) throws Exception {
+    public ParticipanteModel authorize(String token) {
 
-        if (!jwtTokenUtil.validarToken(token)) {
-            throw new Exception("El token no es valido");
-        }
+        jwtTokenUtil.validarToken(token);
         String email = jwtTokenUtil.getSubject(token);
         ParticipanteModel participante = participanteService.obtenerPorEmail(email);
-        if (participante == null) {
-            throw new Exception("El email no existe.");
-        }
         return participante;
     }
-        @Override
-    public AdministradorModel authorizeAdmin(String token) throws Exception {
 
-        if (!jwtTokenUtil.validarToken(token)) {
-            throw new Exception("El token no es valido");
-        }
+    @Override
+    public AdministradorModel authorizeAdmin(String token) {
+
+        jwtTokenUtil.validarToken(token);
         String email = jwtTokenUtil.getSubject(token);
         AdministradorModel adminModel = adminService.obtenerPorEmail(email);
-        if (adminModel == null) {
-            throw new Exception("El email no existe.");
-        }
-        return adminModel;  
+        return adminModel;
+    }
+
+    @Override
+    public String getSubjectFromToken(String token) {
+        return jwtTokenUtil.getSubject(token);
     }
 }
- 

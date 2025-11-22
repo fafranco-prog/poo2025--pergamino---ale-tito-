@@ -1,13 +1,15 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
-import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
-import ar.edu.unnoba.poo2025.torneos.repository.ParticipanteRepository;
-import ar.edu.unnoba.poo2025.torneos.util.PasswordEncoder;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
+import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
+import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
+import ar.edu.unnoba.poo2025.torneos.repository.ParticipanteRepository;
+import ar.edu.unnoba.poo2025.torneos.util.PasswordEncoder;
 
 @Service
 public class ParticipanteServiceImp implements ParticipanteService {
@@ -24,14 +26,14 @@ public class ParticipanteServiceImp implements ParticipanteService {
     }
 
     @Override
-    public Optional<ParticipanteModel> obtenerPorId(Long id) {
-        return participanteRepo.findById(id);
+    public ParticipanteModel obtenerPorId(Long id) {
+        return participanteRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("No se encontró un participante con el ID: " + id));
     }
 
     @Override
-    public void crear(ParticipanteModel participante) throws Exception {
+    public void crear(ParticipanteModel participante) {
         if (participanteRepo.buscarPorEmail(participante.getEmail()).isPresent()) {
-            throw new Exception("El email ya está en uso.");
+            throw new DuplicateResourceException("El email ya está en uso.");
         }
 
         String hashedPassword = passwordEncoder.codificar(participante.getContraseña());

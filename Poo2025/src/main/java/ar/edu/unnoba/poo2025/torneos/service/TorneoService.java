@@ -1,10 +1,9 @@
 package ar.edu.unnoba.poo2025.torneos.service;
+
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
@@ -12,17 +11,18 @@ import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 public interface TorneoService {
 
     public List<TorneoModel> obtenerTorneos();
- 
-    public Optional<TorneoModel> obtenerPorId(Long id);
 
-    public void crear(TorneoModel torneo)throws Exception;
-          
+    public TorneoModel obtenerPorId(Long id);
+
+    public void crear(TorneoModel torneo);
+
     public void eliminar(Long id);
 
     public void actualizar(Long id, TorneoModel nuevosDatos);
 
     public List<TorneoModel> findByPublishedTrue();
+
     public List<TorneoModel> getTorneosOrdenadosDesc();
-  
-    public TorneoDetalleDTO obtenerTorneoDetalleDTO(Long torneoId) throws Exception;
+
+    public TorneoDetalleDTO obtenerTorneoDetalleDTO(Long torneoId);
 }
