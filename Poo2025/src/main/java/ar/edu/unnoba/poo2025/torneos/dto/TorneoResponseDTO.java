@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 
 public class TorneoResponseDTO {
+
     private long id;
     private String nombre;
     private String descripcion;
 
 }
- 

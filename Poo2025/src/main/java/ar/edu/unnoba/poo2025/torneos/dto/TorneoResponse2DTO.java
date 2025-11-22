@@ -5,10 +5,10 @@ import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class TorneoResponse2DTO {
+
     private long id;
     private String nombre;
     private Date fechaIni;

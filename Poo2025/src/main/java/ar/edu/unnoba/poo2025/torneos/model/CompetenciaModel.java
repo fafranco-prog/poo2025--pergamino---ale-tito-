@@ -1,15 +1,24 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "competencias")
@@ -21,22 +30,21 @@ public class CompetenciaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String nombre;
 
-    @Column(precision = 10, scale = 2, nullable=false)
+    @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal precioBase;
- 
-    @Column(nullable=false)
+
+    @Column(nullable = false)
     private Integer cupos;
 
     @ManyToOne
     @JoinColumn(name = "id_torneo", nullable = false)
-    @JsonBackReference("torneo-competencia") 
+    @JsonBackReference("torneo-competencia")
     private TorneoModel torneo;
-  
+
     @OneToMany(mappedBy = "competencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("competencia-inscripcion") 
+    @JsonManagedReference("competencia-inscripcion")
     private List<InscripcionModel> inscripciones = new ArrayList<>();
 }
- 

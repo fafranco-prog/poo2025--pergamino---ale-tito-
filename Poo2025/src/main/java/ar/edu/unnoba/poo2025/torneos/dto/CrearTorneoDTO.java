@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CrearTorneoDTO {
+
     private String nombre;
     private String description;
     private Date fechaFin;
     private Date fechaIni;
 }
- 
