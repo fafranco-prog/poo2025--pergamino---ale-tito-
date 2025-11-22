@@ -92,7 +92,8 @@ public class TorneoServiceImp implements TorneoService {
         dto.setPublicado(torneo.getPublicado());
         dto.setTotalInscripciones(totalInscripciones);
         dto.setMontoTotal(montoTotal);
-
+        dto.setFechaIni(torneo.getFechaIni());
+        dto.setFechaFin(torneo.getFechaFin());
         return dto;
     }
 

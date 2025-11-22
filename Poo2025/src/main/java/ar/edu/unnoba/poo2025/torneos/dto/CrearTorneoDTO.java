@@ -10,7 +10,7 @@ import lombok.Setter;
 public class CrearTorneoDTO {
 
     private String nombre;
-    private String description;
+    private String descripcion;
     private Date fechaFin;
     private Date fechaIni;
 }
