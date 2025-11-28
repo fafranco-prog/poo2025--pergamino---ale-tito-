@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearParticipanteRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
+import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
@@ -31,9 +33,15 @@ public class ModelMapperConfig {
         TypeMap<CrearTorneoDTO, TorneoModel> typeMapTorneoFromCrearTorneoDTO = modelMapper.createTypeMap(CrearTorneoDTO.class, TorneoModel.class);
         typeMapTorneoFromCrearTorneoDTO.addMappings(mapper -> {
             mapper.map(CrearTorneoDTO::getNombre, TorneoModel::setNombre);
-            mapper.map(CrearTorneoDTO::getDescription, TorneoModel::setDescripcion);
+            mapper.map(CrearTorneoDTO::getDescripcion, TorneoModel::setDescripcion);
             mapper.map(CrearTorneoDTO::getFechaFin, TorneoModel::setFechaFin);
             mapper.map(CrearTorneoDTO::getFechaIni, TorneoModel::setFechaIni);
+        });
+        TypeMap<CrearCompetenciaDTO, CompetenciaModel> typeMapCompetenciaFromCrearCompetenciaDTO = modelMapper.createTypeMap(CrearCompetenciaDTO.class, CompetenciaModel.class);
+        typeMapCompetenciaFromCrearCompetenciaDTO.addMappings(mapper -> {
+                mapper.map(CrearCompetenciaDTO::getNombre, CompetenciaModel::setNombre);
+                mapper.map(CrearCompetenciaDTO::getCupos, CompetenciaModel::setCupos);
+                mapper.map(CrearCompetenciaDTO::getPrecio, CompetenciaModel::setPrecioBase);
         });
 
         TypeMap<CrearAdminRequestDTO, AdministradorModel> typeMapAdminFromCrearAdminDTO = modelMapper.createTypeMap(CrearAdminRequestDTO.class, AdministradorModel.class);
