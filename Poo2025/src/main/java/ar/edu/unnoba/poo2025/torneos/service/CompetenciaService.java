@@ -3,52 +3,29 @@ package ar.edu.unnoba.poo2025.torneos.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
-import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
-import ar.edu.unnoba.poo2025.torneos.repository.CompetenciaRepository;
-import ar.edu.unnoba.poo2025.torneos.repository.TorneoRepository;
+import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 
-@Service
-public class CompetenciaService {
 
-    @Autowired
-    private TorneoRepository torneoRepository;
+public interface CompetenciaService {
 
-    @Autowired
-    private CompetenciaRepository competenciaRepository;
+    public List<CompetenciaModel> obtenerCompetencias();
 
-    public List<CompetenciaModel> obtenerCompetencias() {
-        return competenciaRepository.findAll();
-    }
+    public CompetenciaModel obtenerPorId(Long id);
 
-    public Optional<CompetenciaModel> obtenerPorId(Long id) {
-        return competenciaRepository.findById(id);
-    }
+    public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos);
 
-    public CompetenciaModel crear(CompetenciaModel competencia) {
-        TorneoModel torneo = torneoRepository.findById(competencia.getTorneo().getId()).orElse(null);
-        competencia.setTorneo(torneo);
-        return competenciaRepository.save(competencia);
-    }
+    public void crearCompetenciaConTorneo(CrearCompetenciaDTO competencia,Long idTorneo);
 
-    public void eliminar(Long id) {
-        competenciaRepository.deleteById(id);
-    }
+    public void eliminar(Long id,Long idTorneo);
 
-    public void actualizar(Long id, CompetenciaModel nuevosDatos) {
-        CompetenciaModel existente = competenciaRepository.findById(id).orElse(null);
-        if (existente != null) {
-            existente.setNombre(nuevosDatos.getNombre());
-            existente.setCupos(nuevosDatos.getCupos());
-            existente.setPrecioBase(nuevosDatos.getPrecioBase());
-            existente.setTorneo(nuevosDatos.getTorneo());
-
-            TorneoModel torneo = torneoRepository.findById(nuevosDatos.getTorneo().getId()).orElse(null);
-            existente.setTorneo(torneo);
-            competenciaRepository.save(existente);
-        }
-    }
+    public List<CompetenciaModel> obtenerCompetenciasDeTorneo(Long id);
+    
+    public CompetenciaDetalleOutDTO obtenerInscripcionesTotalesConMontos(Long id,Long idTorneo);
+    
+    public List<InscripcionModel> inscripcionesCompetencia(Long idCompetencia, Long idTorneo);
 }
