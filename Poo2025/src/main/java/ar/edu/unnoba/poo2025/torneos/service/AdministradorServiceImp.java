@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
@@ -18,6 +21,8 @@ import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
 import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
 import ar.edu.unnoba.poo2025.torneos.exception.SelfDeletionException;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
+import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
+import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.repository.AdministradorRepository;
 
@@ -33,7 +38,9 @@ public class AdministradorServiceImp implements AdministradorService {
     @Lazy
     private AuthorizationServiceImp authorizationService;
     @Autowired
-    private TorneoServiceImp torneoService;
+    private TorneoService torneoService;
+    @Autowired
+    private CompetenciaService competenciaService;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -124,4 +131,43 @@ public class AdministradorServiceImp implements AdministradorService {
         torneoService.crear(torneoModel);
     }
 
-}
+    @Override
+    public void actualizarTorneo(Long id, ActualizarTorneoDTO torneo){
+        torneoService.actualizar(id, torneo); 
+    }
+    
+    @Override
+    public void eliminarTorneo(Long id){
+        torneoService.eliminar(id);
+    }
+    @Override
+    public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id){
+        return competenciaService.obtenerCompetenciasDeTorneo(id);
+    }
+    @Override
+    public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id,Long idTorneo){
+        return competenciaService.obtenerInscripcionesTotalesConMontos(id,idTorneo);
+    }
+    @Override
+    public void crearCompetenciaConTorneoAsignado(CrearCompetenciaDTO dto, Long idTorneo){
+        competenciaService.crearCompetenciaConTorneo(dto, idTorneo);
+    }  
+    //REUTILIZE EL DTO POR QUE LOS CAMPOS SON IGUALES, PARA QUE QUEDE MAS EXPLICITO SE TENDRIA QUE HACER UN DTO 
+    //ESPECIFICO PARA ESTO
+    @Override
+    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia){
+        competenciaService.actualizar(idCompetencia, dto);
+    }
+    @Override
+    public void eliminarCompetencia(Long id, Long idTorneo){
+        competenciaService.eliminar(id, idTorneo);
+    }
+    @Override
+    public void cambiarEstadoAPublicado(Long idTorneo){
+        torneoService.cambiarEstadoAPublicado(idTorneo);
+    }
+    @Override
+    public List<InscripcionModel> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo){
+        return competenciaService.inscripcionesCompetencia(idCompetencia, idTorneo);
+    }
+}     

@@ -30,12 +30,12 @@ public class CompetenciaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique=true) 
     private String nombre;
 
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(nullable = false)
     private BigDecimal precioBase;
-
+ 
     @Column(nullable = false)
     private Integer cupos;
 

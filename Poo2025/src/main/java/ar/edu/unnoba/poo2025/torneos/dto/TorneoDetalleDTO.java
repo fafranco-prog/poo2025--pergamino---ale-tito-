@@ -1,7 +1,12 @@
 package ar.edu.unnoba.poo2025.torneos.dto;
 
+
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import lombok.Getter;
-import lombok.Setter;
+import lombok.Setter; 
 
 @Getter
 @Setter
@@ -11,5 +16,8 @@ public class TorneoDetalleDTO {
     private String nombre;
     private boolean publicado;
     private int totalInscripciones;
-    private double montoTotal;
+    private BigDecimal montoTotal;
+    private LocalDate fechaFin;
+    private LocalDate fechaIni;
 }
+ 

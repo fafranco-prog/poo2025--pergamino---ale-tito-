@@ -1,6 +1,7 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class TorneoModel {
     @Column(nullable = false)
     private String descripcion;
     @Column(nullable = false)
-    private Date fechaIni;
+    private LocalDate fechaIni;
 
-    private Date fechaFin;
+    private LocalDate fechaFin;
     @Column(nullable = false)
     private Boolean publicado;
 

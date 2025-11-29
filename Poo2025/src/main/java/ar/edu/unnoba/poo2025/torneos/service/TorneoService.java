@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
-@Service
+
 public interface TorneoService {
 
     public List<TorneoModel> obtenerTorneos();
@@ -18,11 +19,13 @@ public interface TorneoService {
 
     public void eliminar(Long id);
 
-    public void actualizar(Long id, TorneoModel nuevosDatos);
+    public void actualizar(Long id, ActualizarTorneoDTO nuevosDatos);
 
     public List<TorneoModel> findByPublishedTrue();
 
     public List<TorneoModel> getTorneosOrdenadosDesc();
 
     public TorneoDetalleDTO obtenerTorneoDetalleDTO(Long torneoId);
+
+    public void cambiarEstadoAPublicado(Long idTorneo);
 }
