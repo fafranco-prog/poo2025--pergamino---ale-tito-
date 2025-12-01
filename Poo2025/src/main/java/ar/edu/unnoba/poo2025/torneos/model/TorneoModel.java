@@ -1,6 +1,5 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

@@ -82,15 +82,13 @@ public class AdministradorServiceImp implements AdministradorService {
         administradorRepository.deleteById(id);
     }
 
-    @Override
-    public void actualizar(Long id, AdministradorModel nuevosDatos) {
-        AdministradorModel existente = obtenerPorId(id);
-        existente.setEmail(nuevosDatos.getEmail());
-        existente.setContraseña(nuevosDatos.getContraseña());
-        administradorRepository.save(existente);
-    }
-    
-
+    // @Override
+    // public void actualizar(Long id, AdministradorModel nuevosDatos) {
+    //     AdministradorModel existente = obtenerPorId(id);
+    //     existente.setEmail(nuevosDatos.getEmail());
+    //     existente.setContraseña(nuevosDatos.getContraseña());
+    //     administradorRepository.save(existente);
+    // }
     @Override
     public AdministradorModel obtenerPorEmail(String email) {
         return administradorRepository.buscarPorEmail(email)
@@ -132,42 +130,49 @@ public class AdministradorServiceImp implements AdministradorService {
     }
 
     @Override
-    public void actualizarTorneo(Long id, ActualizarTorneoDTO torneo){
-        torneoService.actualizar(id, torneo); 
+    public void actualizarTorneo(Long id, ActualizarTorneoDTO torneo) {
+        torneoService.actualizar(id, torneo);
     }
-    
+
     @Override
-    public void eliminarTorneo(Long id){
+    public void eliminarTorneo(Long id) {
         torneoService.eliminar(id);
     }
+
     @Override
-    public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id){
+    public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id) {
         return competenciaService.obtenerCompetenciasDeTorneo(id);
     }
+
     @Override
-    public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id,Long idTorneo){
-        return competenciaService.obtenerInscripcionesTotalesConMontos(id,idTorneo);
+    public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id, Long idTorneo) {
+        return competenciaService.obtenerInscripcionesTotalesConMontos(id, idTorneo);
     }
+
     @Override
-    public void crearCompetenciaConTorneoAsignado(CrearCompetenciaDTO dto, Long idTorneo){
+    public void crearCompetenciaConTorneoAsignado(CrearCompetenciaDTO dto, Long idTorneo) {
         competenciaService.crearCompetenciaConTorneo(dto, idTorneo);
-    }  
+    }
+
     //REUTILIZE EL DTO POR QUE LOS CAMPOS SON IGUALES, PARA QUE QUEDE MAS EXPLICITO SE TENDRIA QUE HACER UN DTO 
     //ESPECIFICO PARA ESTO
     @Override
-    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia){
+    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia) {
         competenciaService.actualizar(idCompetencia, dto);
     }
+
     @Override
-    public void eliminarCompetencia(Long id, Long idTorneo){
+    public void eliminarCompetencia(Long id, Long idTorneo) {
         competenciaService.eliminar(id, idTorneo);
     }
+
     @Override
-    public void cambiarEstadoAPublicado(Long idTorneo){
+    public void cambiarEstadoAPublicado(Long idTorneo) {
         torneoService.cambiarEstadoAPublicado(idTorneo);
     }
+
     @Override
-    public List<InscripcionModel> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo){
+    public List<InscripcionModel> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo) {
         return competenciaService.inscripcionesCompetencia(idCompetencia, idTorneo);
     }
-}     
+}

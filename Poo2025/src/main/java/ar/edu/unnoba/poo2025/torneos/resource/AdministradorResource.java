@@ -80,73 +80,83 @@ public class AdministradorResource {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     //SE MODIFICARON LOS TIPOS DE FECHA POR ERROR DE ACTUALIZACION DE TUPLAS EN LA BASE DE DATOS
- 
+
     @PutMapping("/torneos/{id}")
-    public ResponseEntity<Void> actualizarTorneo(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody ActualizarTorneoDTO torneo){
+    public ResponseEntity<Void> actualizarTorneo(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody ActualizarTorneoDTO torneo) {
         adminService.autorizar(token);
         adminService.actualizarTorneo(id, torneo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    
+
     @DeleteMapping("/torneos/{id}")
-    public ResponseEntity<Void> eliminarTorneo(@RequestHeader("Authorization") String token, @PathVariable Long id){
+    public ResponseEntity<Void> eliminarTorneo(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         adminService.autorizar(token);
         adminService.eliminarTorneo(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    
     @GetMapping("/torneos/{id}/competiciones")
-    public ResponseEntity<List<CompetenciaModel>> obtenerCompetencias(@RequestHeader("Authorization") String token, @PathVariable Long id){
+    public ResponseEntity<List<CompetenciaModel>> obtenerCompetencias(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         adminService.autorizar(token);
         List<CompetenciaModel> compe = adminService.getCompetenciasPoridTorneo(id);
         return new ResponseEntity<>(compe, HttpStatus.OK);
-    }    
-    
+    }
+
     @GetMapping("/torneos/{idTorneo}/competiciones/{idCompe}")
-    public ResponseEntity<CompetenciaDetalleOutDTO> obtenerEstadisticas(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo, @PathVariable Long idCompe){
+    public ResponseEntity<CompetenciaDetalleOutDTO> obtenerEstadisticas(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo, @PathVariable Long idCompe) {
         adminService.autorizar(token);
         CompetenciaDetalleOutDTO compe = adminService.getEstadisticasCompetencia(idCompe, idTorneo);
         return new ResponseEntity<>(compe, HttpStatus.OK);
     }
+
     @PostMapping("/torneos/{idTorneo}")
-    public ResponseEntity<Void> crearCompetenciaConTorneo(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo,@RequestBody CrearCompetenciaDTO dto){
+    public ResponseEntity<Void> crearCompetenciaConTorneo(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo, @RequestBody CrearCompetenciaDTO dto) {
         adminService.autorizar(token);
         adminService.crearCompetenciaConTorneoAsignado(dto, idTorneo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-   @PutMapping("/torneos/{idCompetencia}/competencias")
-    public ResponseEntity<Void> actualizarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long idCompetencia,@RequestBody CrearCompetenciaDTO dto){
+
+    /*
+    En el archivo figura el siguiente endpoint
+    
+    Change Tournament competition details 
+    Actualiza el nombre y el género de una canción. Solo el usuario que creó la canción puede hacerlo. 
+    PUT /admin/tournaments/:id 
+
+    Como no coincidia con lo pedido ya que hablaba de una cancion, se asumio que era para actualizar una competencia (ya existe un endpoint que actualiza el torneo como tal)
+     */
+    @PutMapping("/torneos/{idCompetencia}/competencias")
+    public ResponseEntity<Void> actualizarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long idCompetencia, @RequestBody CrearCompetenciaDTO dto) {
         adminService.autorizar(token);
         adminService.actualizarCompetencia(dto, idCompetencia);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @DeleteMapping("/torneos/{idTorneo}/competencias/{idCompetencia}")
-    public ResponseEntity<Void> eliminarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long idCompetencia,@PathVariable Long idTorneo){
+    public ResponseEntity<Void> eliminarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long idCompetencia, @PathVariable Long idTorneo) {
         adminService.autorizar(token);
         adminService.eliminarCompetencia(idCompetencia, idTorneo);
         return new ResponseEntity<>(HttpStatus.OK);
-    }    
+    }
 
     @PatchMapping("/torneos/{idTorneo}/publicado")
-    public ResponseEntity<Void> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo){
+    public ResponseEntity<Void> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo) {
         adminService.autorizar(token);
         adminService.cambiarEstadoAPublicado(idTorneo);
         return new ResponseEntity<>(HttpStatus.OK);
-    }        
-    
+    }
+
     @GetMapping("/torneos/{idTorneo}/competencia/{idCompe}/inscripciones")
-    public ResponseEntity<List<InscripcionModel>> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo,@PathVariable Long idCompe){
+    public ResponseEntity<List<InscripcionModel>> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long idTorneo, @PathVariable Long idCompe) {
         adminService.autorizar(token);
         List<InscripcionModel> inscripciones = adminService.inscripcionesDeCompetencia(idCompe, idTorneo);
         return new ResponseEntity<>(inscripciones, HttpStatus.OK);
-    }     
- 
+    }
+
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<Map<String, String>> authentication(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         String tokenValue = adminService.generarToken(authenticationRequestDTO);
         Map<String, String> response = Map.of("token", tokenValue);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-}             
-                                      
+}

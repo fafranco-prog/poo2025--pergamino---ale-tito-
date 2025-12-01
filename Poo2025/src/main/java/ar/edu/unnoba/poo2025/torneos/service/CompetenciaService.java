@@ -9,7 +9,7 @@ import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
-
+import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
 public interface CompetenciaService {
 
@@ -19,13 +19,17 @@ public interface CompetenciaService {
 
     public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos);
 
-    public void crearCompetenciaConTorneo(CrearCompetenciaDTO competencia,Long idTorneo);
+    public void crearCompetenciaConTorneo(CrearCompetenciaDTO competencia, Long idTorneo);
 
-    public void eliminar(Long id,Long idTorneo);
+    public void eliminar(Long id, Long idTorneo);
 
     public List<CompetenciaModel> obtenerCompetenciasDeTorneo(Long id);
-    
-    public CompetenciaDetalleOutDTO obtenerInscripcionesTotalesConMontos(Long id,Long idTorneo);
-    
+
+    public CompetenciaDetalleOutDTO obtenerInscripcionesTotalesConMontos(Long id, Long idTorneo);
+
     public List<InscripcionModel> inscripcionesCompetencia(Long idCompetencia, Long idTorneo);
+
+    public CompetenciaModel obtenerCompetenciaDeTorneo(TorneoModel torneo, Long competenciaId);
+
+    public void validarInscripcion(CompetenciaModel competencia, Long participanteId);
 }
