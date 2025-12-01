@@ -17,7 +17,6 @@ import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 
-
 public interface AdministradorService {
 
     public List<AdminResponseDTO> obtenerAdministrador();
@@ -28,8 +27,7 @@ public interface AdministradorService {
 
     public void eliminar(Long id, String token);
 
-    public void actualizar(Long id, AdministradorModel nuevosDatos);
-
+    // public void actualizar(Long id, AdministradorModel nuevosDatos);
     public AdministradorModel obtenerPorEmail(String email);
 
     public String generarToken(AuthenticationRequestDTO authenticationRequestDTO);
@@ -48,11 +46,11 @@ public interface AdministradorService {
 
     public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id);
 
-    public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id,Long idTorneo);
+    public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id, Long idTorneo);
 
     public void crearCompetenciaConTorneoAsignado(CrearCompetenciaDTO dto, Long idTorneo);
 
-    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia); 
+    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia);
 
     public void eliminarCompetencia(Long id, Long idTorneo);
 

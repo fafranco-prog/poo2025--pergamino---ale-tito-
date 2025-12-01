@@ -1,7 +1,7 @@
 package ar.edu.unnoba.poo2025.torneos.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -27,11 +27,11 @@ public class InscripcionModel {
     private Long id;
 
     @Column(nullable = false)
-    private Date fechaInscripcion;
+    private LocalDate fechaInscripcion;
 
     @Column(nullable = false)
     private BigDecimal precioPagado;
-  
+
     @ManyToOne
     @JoinColumn(name = "id_participante", nullable = false)
     private ParticipanteModel participante;

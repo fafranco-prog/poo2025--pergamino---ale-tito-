@@ -1,16 +1,15 @@
 package ar.edu.unnoba.poo2025.torneos.dto;
 
-import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class CrearTorneoDTO {
+@Getter
+public class TorneoActivoResponseDTO {
 
     private String nombre;
     private String descripcion;
-    private LocalDate fechaFin;
-    private LocalDate fechaIni;
+    private String fechaInicio;
+    private String fechaFin;
+
 }

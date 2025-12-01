@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,42 +28,31 @@ public class TorneoServiceImp implements TorneoService {
     public List<TorneoModel> obtenerTorneos() {
         return torneoRepository.findAll();
     }
-/* 
-    @Override
-    public List<TorneoModel> findByPublishedTrue() {
-        java.sql.Date hoy = new java.sql.Date(System.currentTimeMillis());
-        List<TorneoModel> aux = new ArrayList<>();
-        for (TorneoModel torneos : obtenerTorneos()) {
-            if (Boolean.TRUE.equals(torneos.getPublicado())
-                    && !torneos.getFechaIni().after(hoy)
-                    && (torneos.getFechaFin() == null || torneos.getFechaFin().before(hoy))) {
-                aux.add(torneos);
-            }
-        }
-        return aux;
-    }*/
-    @Override
-    public List<TorneoModel> findByPublishedTrue() {
+
+    private List<TorneoModel> findPublishedAndInProgressTournaments() {
         LocalDate hoy = LocalDate.now();
-        List<TorneoModel> aux = new ArrayList<>();
+        return obtenerTorneos().stream()
+                .filter(t -> {
+                    LocalDate fin = t.getFechaFin();
+                    boolean estaPublicado = Boolean.TRUE.equals(t.getPublicado());
+                    boolean noHaFinalizado = fin == null || fin.isAfter(hoy);
 
-        for (TorneoModel torneo : obtenerTorneos()) {
-
-            LocalDate ini = torneo.getFechaIni();
-            LocalDate fin = torneo.getFechaFin();
-
-            boolean estaPublicado = Boolean.TRUE.equals(torneo.getPublicado());
-            boolean iniEsHoyOPasado =ini.isBefore(hoy) || ini.isEqual(hoy);  
-            boolean finEsNuloOAnteriorAHoy =fin == null || fin.isBefore(hoy);        
-
-            if (estaPublicado && iniEsHoyOPasado && finEsNuloOAnteriorAHoy) {
-                aux.add(torneo);
-            }
-        }
-
-        return aux;
+                    return estaPublicado && noHaFinalizado;
+                })
+                .collect(Collectors.toList());
     }
 
+    private List<TorneoModel> findPublishedAndFutureTournaments() {
+        LocalDate hoy = LocalDate.now();
+        return obtenerTorneos().stream()
+                .filter(t -> {
+                    LocalDate ini = t.getFechaIni();
+                    boolean estaPublicado = Boolean.TRUE.equals(t.getPublicado());
+                    boolean esFuturo = ini.isAfter(hoy);
+                    return estaPublicado && esFuturo;
+                })
+                .collect(Collectors.toList());
+    }
 
     @Override
     public TorneoModel obtenerPorId(Long id) {
@@ -72,37 +62,34 @@ public class TorneoServiceImp implements TorneoService {
 
     @Override
     public void eliminar(Long id) {
-        if(torneoRepository.findById(id).equals(id)){
-            throw new ResourceNotFoundException("No se encontro el torneo con el ID: "+id);
-        }
+        obtenerPorId(id);
         torneoRepository.deleteById(id);
     }
- 
- 
-    //TP6 
+
     @Override
     public void actualizar(Long id, ActualizarTorneoDTO nuevosDatos) {
         TorneoModel existente = obtenerPorId(id);
-                
+
         existente.setNombre(nuevosDatos.getNombre());
         existente.setDescripcion(nuevosDatos.getDescripcion());
         existente.setFechaIni(nuevosDatos.getFechaIni());
         existente.setFechaFin(nuevosDatos.getFechaFin());
         torneoRepository.save(existente);
-         
-    } 
+
+    }
+
     @Override
     public List<TorneoModel> getTorneosOrdenadosDesc() {
         List<TorneoModel> aux = new ArrayList<>(obtenerTorneos());
         aux.sort((t1, t2) -> t2.getFechaIni().compareTo(t1.getFechaIni()));
         return aux;
     }
-    //revisar el problema del bigdecimal 
+
     @Override
     public TorneoDetalleDTO obtenerTorneoDetalleDTO(Long torneoId) {
         TorneoModel torneo = torneoRepository.findById(torneoId)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró un torneo con el ID: " + torneoId));
- 
+
         int totalInscripciones = 0;
         BigDecimal montoTotal = BigDecimal.ZERO;
         if (torneo.getCompetencias() != null) {
@@ -133,11 +120,25 @@ public class TorneoServiceImp implements TorneoService {
         }
         torneoRepository.save(torneo);
     }
+
     @Override
-    public void cambiarEstadoAPublicado(Long idTorneo){
+    public void cambiarEstadoAPublicado(Long idTorneo) {
         TorneoModel torneo = obtenerPorId(idTorneo);
         torneo.setPublicado(true);
         torneoRepository.save(torneo);
-    }  
+    }
+
+    @Override
+    public TorneoModel obtenerTorneoActivoParaInscripcion(Long id) {
+        return findPublishedAndFutureTournaments().stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró un torneo publicado y disponible para inscripción con el ID: " + id));
+    }
+
+    @Override
+    public List<TorneoModel> getTorneosActivos() {
+        return findPublishedAndInProgressTournaments();
+    }
 
 }
