@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class TorneoServiceImp implements TorneoService {
 
     @Autowired
     private TorneoRepository torneoRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<TorneoModel> obtenerTorneos() {
@@ -69,13 +72,28 @@ public class TorneoServiceImp implements TorneoService {
     @Override
     public void actualizar(Long id, ActualizarTorneoDTO nuevosDatos) {
         TorneoModel existente = obtenerPorId(id);
+        //validacion de repeticion de nombres de otros torneos
+        if (obtenerTorneos().stream().anyMatch(torneo -> torneo.getNombre().equalsIgnoreCase(nuevosDatos.getNombre()))){
+            throw new DuplicateResourceException("El nombre del Torneo a actualizar ya existe");
+        }
+        //validacion de fechas
+        //uso de ternaria para tener en cuenta tambien la fecha de la existencia 
+        LocalDate fechaInicio = (nuevosDatos.getFechaIni() != null) 
+                        ? nuevosDatos.getFechaIni() 
+                        : existente.getFechaIni();
 
-        existente.setNombre(nuevosDatos.getNombre());
-        existente.setDescripcion(nuevosDatos.getDescripcion());
-        existente.setFechaIni(nuevosDatos.getFechaIni());
-        existente.setFechaFin(nuevosDatos.getFechaFin());
+        if (nuevosDatos.getFechaFin() != null && fechaInicio != null 
+            && !nuevosDatos.getFechaFin().isAfter(fechaInicio)) {
+            throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio");
+        }
+        //existente.setNombre(nuevosDatos.getNombre());
+        //existente.setDescripcion(nuevosDatos.getDescripcion());
+        //existente.setFechaIni(nuevosDatos.getFechaIni());
+        //existente.setFechaFin(nuevosDatos.getFechaFin());
+        modelMapper.getConfiguration().setSkipNullEnabled(true);  
+        modelMapper.map(nuevosDatos,existente);        
         torneoRepository.save(existente);
-
+      
     }
 
     @Override
@@ -120,14 +138,23 @@ public class TorneoServiceImp implements TorneoService {
         }
         torneoRepository.save(torneo);
     }
-
+//AREGLADO
     @Override
     public void cambiarEstadoAPublicado(Long idTorneo) {
         TorneoModel torneo = obtenerPorId(idTorneo);
-        torneo.setPublicado(true);
-        torneoRepository.save(torneo);
-    }
 
+        if (torneo.getFechaFin() == null || torneo.getFechaFin().isBefore(torneo.getFechaIni())) {
+        throw new IllegalArgumentException("La fecha de fin debe estar definida y ser igual o posterior a la fecha de inicio");
+        }
+
+        if(torneo.getPublicado() != true){ 
+            torneo.setPublicado(true);
+            torneoRepository.save(torneo);
+        }else{
+            throw new IllegalArgumentException("El torneo ya esta publicado");
+        }
+    } 
+  
     @Override
     public TorneoModel obtenerTorneoActivoParaInscripcion(Long id) {
         return findPublishedAndFutureTournaments().stream()

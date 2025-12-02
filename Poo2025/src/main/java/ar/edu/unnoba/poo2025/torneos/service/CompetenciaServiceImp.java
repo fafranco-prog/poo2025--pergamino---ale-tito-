@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
 import ar.edu.unnoba.poo2025.torneos.exception.NotAllowedException;
@@ -41,17 +42,21 @@ public class CompetenciaServiceImp implements CompetenciaService {
     }
 
     @Override
-    public List<CompetenciaModel> obtenerCompetenciasDeTorneo(Long id) {
-        List<CompetenciaModel> todas = obtenerCompetencias();
-        List<CompetenciaModel> resultado = new ArrayList<>();
+    public List<CompetenciaPorTorneoResponseDTO> obtenerCompetenciasDeTorneo(Long id) {
+        
+        //List<CompetenciaModel> todas = obtenerCompetencias();
+        //List<CompetenciaPorTorneoResponseDTO> resultado = new ArrayList<>();
         torneoService.obtenerPorId(id);
 
-        for (CompetenciaModel c : todas) {
-            if (c.getTorneo().getId().equals(id)) {
-                resultado.add(c);
-            }
-        }
-        return resultado;
+        //for (CompetenciaModel c : todas) {
+        //    if (c.getTorneo().getId().equals(id)) {
+        //        resultado.add(c);
+        //    }
+        //}
+        return obtenerCompetencias().stream()
+        .filter(c->c.getTorneo().getId().equals(id))
+        .map(c->modelMapper.map(c, CompetenciaPorTorneoResponseDTO.class))
+        .toList();
     }
 
     @Override
