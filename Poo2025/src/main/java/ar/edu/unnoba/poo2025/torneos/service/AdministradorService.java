@@ -8,6 +8,7 @@ import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
@@ -44,7 +45,7 @@ public interface AdministradorService {
 
     public void eliminarTorneo(Long id);
 
-    public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id);
+    public List<CompetenciaPorTorneoResponseDTO> getCompetenciasPoridTorneo(Long id);
 
     public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id, Long idTorneo);
 

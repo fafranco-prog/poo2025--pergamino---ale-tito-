@@ -5,8 +5,10 @@ import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
@@ -49,6 +51,24 @@ public class ModelMapperConfig {
             mapper.map(CrearCompetenciaDTO::getCupos, CompetenciaModel::setCupos);
             mapper.map(CrearCompetenciaDTO::getPrecio, CompetenciaModel::setPrecioBase);
         });
+        //AGREGADO
+        TypeMap<ActualizarTorneoDTO, TorneoModel> typeMapActualizarTorneoFromTorneoModel = modelMapper.createTypeMap(ActualizarTorneoDTO.class,TorneoModel.class);
+        typeMapActualizarTorneoFromTorneoModel.addMappings(mapper -> {
+            mapper.map(ActualizarTorneoDTO::getNombre, TorneoModel::setNombre);
+            mapper.map(ActualizarTorneoDTO::getDescripcion, TorneoModel::setDescripcion);
+            mapper.map(ActualizarTorneoDTO::getFechaIni, TorneoModel::setFechaIni);
+            mapper.map(ActualizarTorneoDTO::getFechaFin, TorneoModel::setFechaFin);
+        }); 
+        //AGREGADO
+        TypeMap<CompetenciaModel, CompetenciaPorTorneoResponseDTO> typeMapCompetenciaModelFromCompetenciaPorTorneoDTO = modelMapper.createTypeMap(CompetenciaModel.class, CompetenciaPorTorneoResponseDTO.class);
+        typeMapCompetenciaModelFromCompetenciaPorTorneoDTO.addMappings(mapper ->{
+            mapper.map(CompetenciaModel::getId, CompetenciaPorTorneoResponseDTO::setId);
+            mapper.map(CompetenciaModel::getNombre, CompetenciaPorTorneoResponseDTO::setNombre);
+            mapper.map(c -> c.getTorneo().getId(), CompetenciaPorTorneoResponseDTO::setTorneo);
+            mapper.map(CompetenciaModel::getPrecioBase, CompetenciaPorTorneoResponseDTO::setPrecioBase);
+            mapper.map(CompetenciaModel::getCupos, CompetenciaPorTorneoResponseDTO::setCupos);
+        });
+                                       
 
         TypeMap<CrearAdminRequestDTO, AdministradorModel> typeMapAdminFromCrearAdminDTO = modelMapper.createTypeMap(CrearAdminRequestDTO.class, AdministradorModel.class);
         typeMapAdminFromCrearAdminDTO.addMappings(mapper -> {

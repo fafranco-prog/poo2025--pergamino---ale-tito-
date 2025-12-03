@@ -12,6 +12,7 @@ import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
@@ -59,8 +60,12 @@ public class AdministradorServiceImp implements AdministradorService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró un administrador con el ID: " + id));
     }
 
+    
+    //ARREGLADO
     @Override
     public void crear(CrearAdminRequestDTO administrador) {
+        //las validaciones pertinen de nulos y demas se hacen de manera automatica, esta manera se esta probando en caso de no tener la resputa
+        //deseada se volvera a la forma tradicional
         if (administradorRepository.buscarPorEmail(administrador.getEmail()).isPresent()) {
             throw new DuplicateResourceException("El email '" + administrador.getEmail() + "' ya está en uso.");
         }
@@ -121,9 +126,13 @@ public class AdministradorServiceImp implements AdministradorService {
     public TorneoDetalleDTO getTorneoPorId(Long id) {
         return torneoService.obtenerTorneoDetalleDTO(id);
     }
-
+    //ARREGLADO
     @Override
     public void crearTorneo(CrearTorneoDTO torneo) {
+        
+        if (torneo.getFechaFin() != null && torneo.getFechaFin().isBefore(torneo.getFechaIni())) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
         TorneoModel torneoModel = modelMapper.map(torneo, TorneoModel.class);
         torneoModel.setPublicado(false);
         torneoService.crear(torneoModel);
@@ -138,11 +147,11 @@ public class AdministradorServiceImp implements AdministradorService {
     public void eliminarTorneo(Long id) {
         torneoService.eliminar(id);
     }
-
+    //AREGLADO
     @Override
-    public List<CompetenciaModel> getCompetenciasPoridTorneo(Long id) {
+    public List<CompetenciaPorTorneoResponseDTO> getCompetenciasPoridTorneo(Long id) {
         return competenciaService.obtenerCompetenciasDeTorneo(id);
-    }
+    }  
 
     @Override
     public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id, Long idTorneo) {
