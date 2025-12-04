@@ -6,14 +6,13 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaResponseDTO;
-import ar.edu.unnoba.poo2025.torneos.dto.InscripcionDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.InscripcionResponseDTO;
-import ar.edu.unnoba.poo2025.torneos.dto.TorneoActivoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
+import ar.edu.unnoba.poo2025.torneos.exception.NotAllowedException;
 import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
@@ -149,8 +148,11 @@ public class ParticipanteServiceImp implements ParticipanteService {
     }
 
     @Override
-    public InscripcionDetalleDTO getInscripcionDTOById(Long id) {
+    public InscripcionModel getInscripcionById(ParticipanteModel participante, Long id) {
         InscripcionModel inscripcion = inscripcionService.obtenerPorId(id);
-        return modelMapper.map(inscripcion, InscripcionDetalleDTO.class);
+        if (!inscripcion.getParticipante().getId().equals(participante.getId())) {
+            throw new NotAllowedException("No tiene permiso para acceder a esta inscripción.");
+        }
+        return inscripcion;
     }
 }

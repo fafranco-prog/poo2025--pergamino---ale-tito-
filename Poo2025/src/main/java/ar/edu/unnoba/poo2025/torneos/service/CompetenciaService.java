@@ -1,9 +1,6 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;

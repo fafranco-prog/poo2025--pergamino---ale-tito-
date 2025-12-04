@@ -1,6 +1,5 @@
 package ar.edu.unnoba.poo2025.torneos.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -43,7 +42,7 @@ public class CompetenciaServiceImp implements CompetenciaService {
 
     @Override
     public List<CompetenciaPorTorneoResponseDTO> obtenerCompetenciasDeTorneo(Long id) {
-        
+
         //List<CompetenciaModel> todas = obtenerCompetencias();
         //List<CompetenciaPorTorneoResponseDTO> resultado = new ArrayList<>();
         torneoService.obtenerPorId(id);
@@ -54,9 +53,9 @@ public class CompetenciaServiceImp implements CompetenciaService {
         //    }
         //}
         return obtenerCompetencias().stream()
-        .filter(c->c.getTorneo().getId().equals(id))
-        .map(c->modelMapper.map(c, CompetenciaPorTorneoResponseDTO.class))
-        .toList();
+                .filter(c -> c.getTorneo().getId().equals(id))
+                .map(c -> modelMapper.map(c, CompetenciaPorTorneoResponseDTO.class))
+                .toList();
     }
 
     @Override

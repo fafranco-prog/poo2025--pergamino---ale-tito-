@@ -3,10 +3,9 @@ package ar.edu.unnoba.poo2025.torneos.service;
 import java.util.List;
 
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaResponseDTO;
-import ar.edu.unnoba.poo2025.torneos.dto.InscripcionDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.InscripcionResponseDTO;
-import ar.edu.unnoba.poo2025.torneos.dto.TorneoActivoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
+import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 
@@ -37,5 +36,5 @@ public interface ParticipanteService {
 
     List<InscripcionResponseDTO> getInscripciones();
 
-    InscripcionDetalleDTO getInscripcionDTOById(Long id);
+    InscripcionModel getInscripcionById(ParticipanteModel participante, Long id);
 }

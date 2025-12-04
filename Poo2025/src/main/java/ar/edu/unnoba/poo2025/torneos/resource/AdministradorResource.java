@@ -3,7 +3,6 @@ package ar.edu.unnoba.poo2025.torneos.resource;
 import java.util.List;
 import java.util.Map;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,6 @@ import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
-import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.service.AdministradorService;
 import jakarta.validation.Valid;
@@ -48,7 +46,7 @@ public class AdministradorResource {
     }
 
     @PostMapping("/accounts")
-    public ResponseEntity<Void> addAdmin(@RequestHeader("Authorization") String token,@Valid @RequestBody CrearAdminRequestDTO adminDTO) {
+    public ResponseEntity<Void> addAdmin(@RequestHeader("Authorization") String token, @Valid @RequestBody CrearAdminRequestDTO adminDTO) {
         adminService.autorizar(token);
         adminService.crear(adminDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -76,11 +74,11 @@ public class AdministradorResource {
     }
 
     @PostMapping("/tournaments")
-    public ResponseEntity<Void> crearTorneo(@RequestHeader("Authorization") String token,@Valid @RequestBody CrearTorneoDTO torneoDTO) {
+    public ResponseEntity<Void> crearTorneo(@RequestHeader("Authorization") String token, @Valid @RequestBody CrearTorneoDTO torneoDTO) {
         adminService.autorizar(token);
         adminService.crearTorneo(torneoDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    } 
+    }
     //SE MODIFICARON LOS TIPOS DE FECHA POR ERROR DE ACTUALIZACION DE TUPLAS EN LA BASE DE DATOS
 
     @PutMapping("/tournaments/{id}")
@@ -96,7 +94,7 @@ public class AdministradorResource {
         adminService.eliminarTorneo(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
     @GetMapping("/tournaments/{id}/competitions")
     public ResponseEntity<List<CompetenciaPorTorneoResponseDTO>> obtenerCompetencias(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         adminService.autorizar(token);

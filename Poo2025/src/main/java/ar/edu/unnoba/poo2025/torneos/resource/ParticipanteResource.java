@@ -23,6 +23,7 @@ import ar.edu.unnoba.poo2025.torneos.dto.ParticipanteRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoActivoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
+import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.service.ParticipanteService;
@@ -100,8 +101,9 @@ public class ParticipanteResource {
 
     @GetMapping(path = "/inscriptions/{id}")
     public ResponseEntity<InscripcionDetalleDTO> getInscripcionById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        participanteService.authorization(token);
-        InscripcionDetalleDTO inscripcion = participanteService.getInscripcionDTOById(id);
-        return new ResponseEntity<>(inscripcion, HttpStatus.OK);
+        ParticipanteModel participante = participanteService.authorization(token);
+        InscripcionModel inscripcion = participanteService.getInscripcionById(participante, id);
+        InscripcionDetalleDTO response = modelMapper.map(inscripcion, InscripcionDetalleDTO.class);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
