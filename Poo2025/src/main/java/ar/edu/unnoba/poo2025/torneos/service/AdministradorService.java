@@ -2,8 +2,6 @@ package ar.edu.unnoba.poo2025.torneos.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import ar.edu.unnoba.poo2025.torneos.dto.ActualizarTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AdminResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.AuthenticationRequestDTO;
@@ -15,7 +13,6 @@ import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
-import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 
 public interface AdministradorService {

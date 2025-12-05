@@ -51,7 +51,7 @@ public class JwtTokenUtil {
             JWTVerifier verifier = JWT.require(algorithm).build();
             verifier.verify(jwtToken);
         } catch (JWTVerificationException exception) {
-            throw new JwtAuthenticationException("Token inválido o expirado: " + exception.getMessage());
+            throw new JwtAuthenticationException("Token inválido o expirado");
         }
     }
 

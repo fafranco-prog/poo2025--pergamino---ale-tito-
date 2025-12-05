@@ -22,7 +22,6 @@ import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
 import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
 import ar.edu.unnoba.poo2025.torneos.exception.SelfDeletionException;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
-import ar.edu.unnoba.poo2025.torneos.model.CompetenciaModel;
 import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.repository.AdministradorRepository;
@@ -60,7 +59,6 @@ public class AdministradorServiceImp implements AdministradorService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró un administrador con el ID: " + id));
     }
 
-    
     //ARREGLADO
     @Override
     public void crear(CrearAdminRequestDTO administrador) {
@@ -126,10 +124,11 @@ public class AdministradorServiceImp implements AdministradorService {
     public TorneoDetalleDTO getTorneoPorId(Long id) {
         return torneoService.obtenerTorneoDetalleDTO(id);
     }
+
     //ARREGLADO
     @Override
     public void crearTorneo(CrearTorneoDTO torneo) {
-        
+
         if (torneo.getFechaFin() != null && torneo.getFechaFin().isBefore(torneo.getFechaIni())) {
             throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
         }
@@ -147,11 +146,12 @@ public class AdministradorServiceImp implements AdministradorService {
     public void eliminarTorneo(Long id) {
         torneoService.eliminar(id);
     }
+
     //AREGLADO
     @Override
     public List<CompetenciaPorTorneoResponseDTO> getCompetenciasPoridTorneo(Long id) {
         return competenciaService.obtenerCompetenciasDeTorneo(id);
-    }  
+    }
 
     @Override
     public CompetenciaDetalleOutDTO getEstadisticasCompetencia(Long id, Long idTorneo) {
