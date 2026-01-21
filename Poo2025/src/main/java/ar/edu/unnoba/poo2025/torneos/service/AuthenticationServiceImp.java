@@ -28,9 +28,8 @@ public class AuthenticationServiceImp implements AuthenticationService {
             if (!passwordEncoder.verificar(participante.getContraseña(), participanteGuardado.getContraseña())) {
                 throw new InvalidCredentialsException("Email o contraseña incorrectos.");
             }
-            return jwtTokenUtil.generarToken(participanteGuardado.getEmail());
+            return jwtTokenUtil.generarToken(participanteGuardado.getEmail(), participanteGuardado);
         } catch (RuntimeException e) {
-            // Captura cualquier excepción (como ResourceNotFoundException) y la traduce a una falla de credenciales.
             throw new InvalidCredentialsException("Email o contraseña incorrectos.");
         }
     }
