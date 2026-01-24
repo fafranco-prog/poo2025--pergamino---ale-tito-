@@ -168,6 +168,7 @@ public class ModelMapperConfig {
                 = modelMapper.createTypeMap(TorneoModel.class, TorneoActivoResponseDTO.class);
 
         typeMapTorneoActivoFromDTO.addMappings(mapper -> {
+            mapper.map(TorneoModel::getId, TorneoActivoResponseDTO::setId);
             mapper.map(TorneoModel::getNombre, TorneoActivoResponseDTO::setNombre);
             mapper.map(TorneoModel::getDescripcion, TorneoActivoResponseDTO::setDescripcion);
             mapper.map(TorneoModel::getFechaIni, TorneoActivoResponseDTO::setFechaInicio);

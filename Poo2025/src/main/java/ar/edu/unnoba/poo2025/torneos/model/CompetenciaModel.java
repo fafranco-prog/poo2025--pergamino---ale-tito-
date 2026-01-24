@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,9 @@ public class CompetenciaModel {
  
     @Column(nullable = false)
     private Integer cupos;
+
+    @Transient
+    private int cuposDisponibles;
 
     @ManyToOne
     @JoinColumn(name = "id_torneo", nullable = false)
