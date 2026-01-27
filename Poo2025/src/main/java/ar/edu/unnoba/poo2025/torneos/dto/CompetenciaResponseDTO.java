@@ -14,4 +14,5 @@ public class CompetenciaResponseDTO {
     private String nombre;
     private BigDecimal precioBase;
     private Integer cupos;
+    private Integer cuposDisponibles;
 }

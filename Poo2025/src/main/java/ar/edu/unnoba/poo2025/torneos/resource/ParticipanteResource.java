@@ -61,7 +61,7 @@ public class ParticipanteResource {
                 .collect(Collectors.toList());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+ 
     @GetMapping(path = "/tournament/{id}")
     public ResponseEntity<TorneoDetalleDTO> getTorneoById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         participanteService.authorization(token);

@@ -6,10 +6,10 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TorneoActivoResponseDTO {
-
+    private long id; 
     private String nombre;
     private String descripcion;
     private String fechaInicio;
     private String fechaFin;
-
+ 
 }

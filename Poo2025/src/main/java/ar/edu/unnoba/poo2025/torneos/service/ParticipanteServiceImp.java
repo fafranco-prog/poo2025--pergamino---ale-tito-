@@ -120,13 +120,27 @@ public class ParticipanteServiceImp implements ParticipanteService {
         return response;
     }
 
-    @Override
+/*   @Override
     public CompetenciaModel getCompetenciaById(Long tournamentId, Long id) {
         TorneoModel torneo = torneoService.obtenerPorId(tournamentId);
         return torneo.getCompetencias().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("La competencia con ID " + id + " no fue encontrada o no pertenece al torneo con ID " + tournamentId));
+    }*/
+
+    @Override
+    public CompetenciaModel getCompetenciaById(Long tournamentId, Long id) {
+        torneoService.obtenerPorId(tournamentId);
+        
+        CompetenciaModel competencia = competenciaService.obtenerPorId(id);
+        
+        if (!competencia.getTorneo().getId().equals(tournamentId)) {
+            throw new ResourceNotFoundException("La competencia con ID " + id + 
+                " no pertenece al torneo con ID " + tournamentId);
+        }
+        
+        return competencia;
     }
 
     @Override

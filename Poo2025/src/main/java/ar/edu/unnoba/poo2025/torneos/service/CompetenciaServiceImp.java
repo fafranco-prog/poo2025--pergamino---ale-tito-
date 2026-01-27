@@ -33,11 +33,33 @@ public class CompetenciaServiceImp implements CompetenciaService {
     public List<CompetenciaModel> obtenerCompetencias() {
         return competenciaRepository.findAll();
     }
-
+/*
     @Override
     public CompetenciaModel obtenerPorId(Long id) {
         return competenciaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró una competencia con el ID: " + id));
+    }
+
+    @Override
+    public CompetenciaModel obtenerPorId(Long id) {
+        CompetenciaModel competencia = competenciaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("No se encontró una competencia con el ID: " + id));
+    
+    // CALCULO DE CUPOS: Esto es lo que falta para que el front no reciba "null"
+        int disponibles = competenciaRepository.consultarCuposDisponibles(id);
+        competencia.setCuposDisponibles(disponibles);
+    
+        return competencia;
+    }*/
+    @Override
+    public CompetenciaModel obtenerPorId(Long id) {
+        CompetenciaModel competencia = competenciaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró competencia"));
+
+        Integer disponibles = competenciaRepository.consultarCuposDisponibles(id);                
+        competencia.setCuposDisponibles(disponibles != null ? disponibles : 0);
+        
+        return competencia;
     }
 
     @Override

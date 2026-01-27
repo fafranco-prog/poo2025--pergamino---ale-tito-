@@ -12,5 +12,13 @@ public interface CompetenciaRepository extends JpaRepository<CompetenciaModel, L
 
     @Query("SELECT p FROM CompetenciaModel p WHERE p.nombre = :nombre")
     public Optional<CompetenciaModel> buscarPorNombre(@Param("nombre") String nombre);
+    // Nueva consulta para obtener cupos restantes
+    @Query(value = "SELECT (c.cupos - COUNT(i.id)) " +
+                "FROM competencias c " +
+                "LEFT JOIN inscripciones i ON i.id_competencia = c.id " +
+                "WHERE c.id = :id " +
+                "GROUP BY c.id, c.cupos", nativeQuery = true)
+    Integer consultarCuposDisponibles(@Param("id") Long id);
+
 
 }
