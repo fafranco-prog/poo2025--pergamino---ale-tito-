@@ -104,4 +104,9 @@ public class InscripcionServiceImp implements InscripcionService {
         inscripcionRepository.save(nuevaInscripcion);
 
     }
+    
+    @Override
+    public List<InscripcionModel> obtenerInscripcionesPorParticipante(Long participanteId) {
+        return inscripcionRepository.findByParticipanteId(participanteId);
+    }
 }
