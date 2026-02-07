@@ -92,10 +92,18 @@ public class ParticipanteResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/inscriptions")
+    /*@GetMapping(path = "/inscriptions")
     public ResponseEntity<List<InscripcionResponseDTO>> getInscripciones(@RequestHeader("Authorization") String token) {
         participanteService.authorization(token);
         List<InscripcionResponseDTO> inscripciones = participanteService.getInscripciones();
+        return new ResponseEntity<>(inscripciones, HttpStatus.OK);
+    }*/
+    @GetMapping(path = "/inscriptions")
+    public ResponseEntity<List<InscripcionResponseDTO>> getInscripciones(@RequestHeader("Authorization") String token) {
+        ParticipanteModel participante = participanteService.authorization(token);
+    
+        List<InscripcionResponseDTO> inscripciones = participanteService.getInscripcionesByParticipante(participante.getId());
+    
         return new ResponseEntity<>(inscripciones, HttpStatus.OK);
     }
 

@@ -21,4 +21,8 @@ public interface InscripcionService {
     public CompetenciaDetalleOutDTO obtenerEstadisticasPorCompetencia(Long idCompetencia);
 
     public void registrarInscripcion(CompetenciaModel competencia, Long participanteId);
+
+    public List<InscripcionModel> obtenerInscripcionesPorParticipante(Long participanteId);
+    
 }
+
