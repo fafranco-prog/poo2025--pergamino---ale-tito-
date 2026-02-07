@@ -33,47 +33,21 @@ public class CompetenciaServiceImp implements CompetenciaService {
     public List<CompetenciaModel> obtenerCompetencias() {
         return competenciaRepository.findAll();
     }
-/*
-    @Override
-    public CompetenciaModel obtenerPorId(Long id) {
-        return competenciaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró una competencia con el ID: " + id));
-    }
 
-    @Override
-    public CompetenciaModel obtenerPorId(Long id) {
-        CompetenciaModel competencia = competenciaRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("No se encontró una competencia con el ID: " + id));
-    
-    // CALCULO DE CUPOS: Esto es lo que falta para que el front no reciba "null"
-        int disponibles = competenciaRepository.consultarCuposDisponibles(id);
-        competencia.setCuposDisponibles(disponibles);
-    
-        return competencia;
-    }*/
     @Override
     public CompetenciaModel obtenerPorId(Long id) {
         CompetenciaModel competencia = competenciaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró competencia"));
 
-        Integer disponibles = competenciaRepository.consultarCuposDisponibles(id);                
+        Integer disponibles = competenciaRepository.consultarCuposDisponibles(id);
         competencia.setCuposDisponibles(disponibles != null ? disponibles : 0);
-        
+
         return competencia;
     }
 
     @Override
     public List<CompetenciaPorTorneoResponseDTO> obtenerCompetenciasDeTorneo(Long id) {
-
-        //List<CompetenciaModel> todas = obtenerCompetencias();
-        //List<CompetenciaPorTorneoResponseDTO> resultado = new ArrayList<>();
         torneoService.obtenerPorId(id);
-
-        //for (CompetenciaModel c : todas) {
-        //    if (c.getTorneo().getId().equals(id)) {
-        //        resultado.add(c);
-        //    }
-        //}
         return obtenerCompetencias().stream()
                 .filter(c -> c.getTorneo().getId().equals(id))
                 .map(c -> modelMapper.map(c, CompetenciaPorTorneoResponseDTO.class))
@@ -93,6 +67,7 @@ public class CompetenciaServiceImp implements CompetenciaService {
     @Override
     public void crearCompetenciaConTorneo(CrearCompetenciaDTO competencia, Long idTorneo) {
         TorneoModel torneo = torneoService.obtenerPorId(idTorneo);
+        torneoService.validarTorneoNoPublicado(torneo);
         //SE PODRIA SEPARAR LA VALIDACION DE EXISTENCIA
         if (competenciaRepository.buscarPorNombre(competencia.getNombre()).isPresent()) {
             throw new DuplicateResourceException("Ya existe una competencia con el nombre '" + competencia.getNombre() + "'.");
@@ -103,8 +78,13 @@ public class CompetenciaServiceImp implements CompetenciaService {
     }
 
     @Override
-    public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos) {
+    public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos, Long tournamentId) {
+        TorneoModel torneo = torneoService.obtenerPorId(tournamentId);
+        torneoService.validarTorneoNoPublicado(torneo);
         CompetenciaModel existente = obtenerPorId(id);
+        if (!existente.getTorneo().getId().equals(tournamentId)) {
+            throw new NotAllowedException("La competencia no pertenece al torneo especificado.");
+        }
         //NO TOMA EN CUENTA CAMPOS NULOS/INEXISTENTES
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(nuevosDatos, existente);
@@ -114,6 +94,7 @@ public class CompetenciaServiceImp implements CompetenciaService {
     @Override
     public void eliminar(Long id, Long idTorneo) {
         TorneoModel torneo = torneoService.obtenerPorId(idTorneo);
+        torneoService.validarTorneoNoPublicado(torneo);
         CompetenciaModel compe = obtenerPorId(id);
         if (!torneo.getId().equals(compe.getTorneo().getId())) {
             throw new ResourceNotFoundException("El torneo no es el asignado a la competencia");
@@ -157,5 +138,4 @@ public class CompetenciaServiceImp implements CompetenciaService {
             throw new NotAllowedException("No hay cupo disponible en esta competencia.");
         }
     }
-
 }
