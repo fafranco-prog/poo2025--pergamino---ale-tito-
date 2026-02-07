@@ -15,7 +15,7 @@ public interface CompetenciaService {
 
     public CompetenciaModel obtenerPorId(Long id);
 
-    public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos);
+    public void actualizar(Long id, CrearCompetenciaDTO nuevosDatos, Long tournamentId);
 
     public void crearCompetenciaConTorneo(CrearCompetenciaDTO competencia, Long idTorneo);
 

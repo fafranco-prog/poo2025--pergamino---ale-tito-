@@ -48,7 +48,7 @@ public interface AdministradorService {
 
     public void crearCompetenciaConTorneoAsignado(CrearCompetenciaDTO dto, Long idTorneo);
 
-    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia);
+    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long id, Long tournamentId);
 
     public void eliminarCompetencia(Long id, Long idTorneo);
 

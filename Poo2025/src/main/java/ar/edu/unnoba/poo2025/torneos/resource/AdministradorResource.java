@@ -125,10 +125,10 @@ public class AdministradorResource {
 
     Como no coincidia con lo pedido ya que hablaba de una cancion, se asumio que era para actualizar una competencia (ya existe un endpoint que actualiza el torneo como tal)
      */
-    @PutMapping("/tournaments/{idCompetencia}/competitions")
-    public ResponseEntity<Void> actualizarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long idCompetencia, @RequestBody CrearCompetenciaDTO dto) {
+    @PutMapping("/tournaments/{tournamentId}/competitions/{id}")
+    public ResponseEntity<Void> actualizarCompetencia(@RequestHeader("Authorization") String token, @PathVariable Long tournamentId, @PathVariable Long id, @RequestBody CrearCompetenciaDTO dto) {
         adminService.autorizar(token);
-        adminService.actualizarCompetencia(dto, idCompetencia);
+        adminService.actualizarCompetencia(dto, id, tournamentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

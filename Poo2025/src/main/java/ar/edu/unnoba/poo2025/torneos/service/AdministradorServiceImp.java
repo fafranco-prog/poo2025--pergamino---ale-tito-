@@ -166,8 +166,8 @@ public class AdministradorServiceImp implements AdministradorService {
     //REUTILIZE EL DTO POR QUE LOS CAMPOS SON IGUALES, PARA QUE QUEDE MAS EXPLICITO SE TENDRIA QUE HACER UN DTO 
     //ESPECIFICO PARA ESTO
     @Override
-    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long idCompetencia) {
-        competenciaService.actualizar(idCompetencia, dto);
+    public void actualizarCompetencia(CrearCompetenciaDTO dto, Long id, Long tournamentId) {
+        competenciaService.actualizar(id, dto, tournamentId);
     }
 
     @Override
