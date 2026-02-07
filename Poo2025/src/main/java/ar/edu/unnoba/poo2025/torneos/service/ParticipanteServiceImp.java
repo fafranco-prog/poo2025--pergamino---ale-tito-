@@ -20,7 +20,7 @@ import ar.edu.unnoba.poo2025.torneos.model.ParticipanteModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.repository.ParticipanteRepository;
 
-@Service
+@Service     
 public class ParticipanteServiceImp implements ParticipanteService {
 
     @Autowired
@@ -120,13 +120,27 @@ public class ParticipanteServiceImp implements ParticipanteService {
         return response;
     }
 
-    @Override
+/*   @Override
     public CompetenciaModel getCompetenciaById(Long tournamentId, Long id) {
         TorneoModel torneo = torneoService.obtenerPorId(tournamentId);
         return torneo.getCompetencias().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("La competencia con ID " + id + " no fue encontrada o no pertenece al torneo con ID " + tournamentId));
+    }*/
+
+    @Override
+    public CompetenciaModel getCompetenciaById(Long tournamentId, Long id) {
+        torneoService.obtenerPorId(tournamentId);
+        
+        CompetenciaModel competencia = competenciaService.obtenerPorId(id);
+        
+        if (!competencia.getTorneo().getId().equals(tournamentId)) {
+            throw new ResourceNotFoundException("La competencia con ID " + id + 
+                " no pertenece al torneo con ID " + tournamentId);
+        }
+        
+        return competencia;
     }
 
     @Override
@@ -140,12 +154,12 @@ public class ParticipanteServiceImp implements ParticipanteService {
         inscripcionService.registrarInscripcion(competencia, participanteId);
     }
 
-    @Override
-    public List<InscripcionResponseDTO> getInscripciones() {
-        return inscripcionService.obtenerInscripciones().stream()
-                .map(i -> modelMapper.map(i, InscripcionResponseDTO.class))
-                .collect(Collectors.toList());
-    }
+    //@Override
+    //public List<InscripcionResponseDTO> getInscripciones() {
+    //    return inscripcionService.obtenerInscripciones().stream()
+    //            .map(i -> modelMapper.map(i, InscripcionResponseDTO.class))
+    //            .collect(Collectors.toList());
+    //}
 
     @Override
     public InscripcionModel getInscripcionById(ParticipanteModel participante, Long id) {
@@ -154,5 +168,15 @@ public class ParticipanteServiceImp implements ParticipanteService {
             throw new NotAllowedException("No tiene permiso para acceder a esta inscripción.");
         }
         return inscripcion;
+    }
+
+
+    @Override
+    public List<InscripcionResponseDTO> getInscripcionesByParticipante(Long participanteId) {
+        List<InscripcionModel> inscripciones = inscripcionService.obtenerInscripcionesPorParticipante(participanteId);
+    
+        return inscripciones.stream()
+            .map(i -> modelMapper.map(i, InscripcionResponseDTO.class))
+            .collect(Collectors.toList());
     }
 }

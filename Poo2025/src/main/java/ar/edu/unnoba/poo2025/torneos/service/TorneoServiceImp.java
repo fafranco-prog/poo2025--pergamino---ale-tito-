@@ -51,11 +51,11 @@ public class TorneoServiceImp implements TorneoService {
                 .filter(t -> {
                     LocalDate ini = t.getFechaIni();
                     boolean estaPublicado = Boolean.TRUE.equals(t.getPublicado());
-                    boolean esFuturo = ini.isAfter(hoy);
-                    return estaPublicado && esFuturo;
+                    boolean esFuturoOActual = !ini.isBefore(hoy);                     
+                    return estaPublicado && esFuturoOActual;
                 })
                 .collect(Collectors.toList());
-    }
+    }    
 
     @Override
     public TorneoModel obtenerPorId(Long id) {

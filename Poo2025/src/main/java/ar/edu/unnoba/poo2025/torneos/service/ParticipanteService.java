@@ -34,7 +34,11 @@ public interface ParticipanteService {
 
     void inscribirseEnCompetencia(Long tournamentId, Long competenciaId, Long participanteId);
 
-    List<InscripcionResponseDTO> getInscripciones();
+    //List<InscripcionResponseDTO> getInscripciones();
 
     InscripcionModel getInscripcionById(ParticipanteModel participante, Long id);
+
+    
+    public List<InscripcionResponseDTO> getInscripcionesByParticipante(Long participanteId);
+    
 }
