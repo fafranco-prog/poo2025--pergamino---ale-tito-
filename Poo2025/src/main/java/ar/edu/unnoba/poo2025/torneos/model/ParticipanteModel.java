@@ -20,6 +20,6 @@ public class ParticipanteModel extends UsuarioModel {
     @Column(nullable = true)
     private String tipoDni;
     @Column(nullable = true)
-    private Integer numeroDni;
-
+    private String numeroDni;
+    //se cambio el tipo de dato para aceptar otro tipo de documentos 
 }
