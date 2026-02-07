@@ -51,11 +51,11 @@ public class TorneoServiceImp implements TorneoService {
                 .filter(t -> {
                     LocalDate ini = t.getFechaIni();
                     boolean estaPublicado = Boolean.TRUE.equals(t.getPublicado());
-                    boolean esFuturoOActual = !ini.isBefore(hoy);                     
+                    boolean esFuturoOActual = !ini.isBefore(hoy);
                     return estaPublicado && esFuturoOActual;
                 })
                 .collect(Collectors.toList());
-    }    
+    }
 
     @Override
     public TorneoModel obtenerPorId(Long id) {
@@ -65,35 +65,37 @@ public class TorneoServiceImp implements TorneoService {
 
     @Override
     public void eliminar(Long id) {
-        obtenerPorId(id);
+        TorneoModel torneo = obtenerPorId(id);
+        validarTorneoNoPublicado(torneo);
         torneoRepository.deleteById(id);
     }
 
     @Override
     public void actualizar(Long id, ActualizarTorneoDTO nuevosDatos) {
         TorneoModel existente = obtenerPorId(id);
+        validarTorneoNoPublicado(existente);
         //validacion de repeticion de nombres de otros torneos
-        if (obtenerTorneos().stream().anyMatch(torneo -> torneo.getNombre().equalsIgnoreCase(nuevosDatos.getNombre()))){
-            throw new DuplicateResourceException("El nombre del Torneo a actualizar ya existe");
+        if (obtenerTorneos().stream().anyMatch(torneo -> torneo.getNombre().equalsIgnoreCase(nuevosDatos.getNombre()) && !torneo.getId().equals(existente.getId()))) {
+            throw new DuplicateResourceException("El nombre del torneo a actualizar ya existe");
         }
         //validacion de fechas
         //uso de ternaria para tener en cuenta tambien la fecha de la existencia 
-        LocalDate fechaInicio = (nuevosDatos.getFechaIni() != null) 
-                        ? nuevosDatos.getFechaIni() 
-                        : existente.getFechaIni();
+        LocalDate fechaInicio = (nuevosDatos.getFechaIni() != null)
+                ? nuevosDatos.getFechaIni()
+                : existente.getFechaIni();
 
-        if (nuevosDatos.getFechaFin() != null && fechaInicio != null 
-            && !nuevosDatos.getFechaFin().isAfter(fechaInicio)) {
+        if (nuevosDatos.getFechaFin() != null && fechaInicio != null
+                && !nuevosDatos.getFechaFin().isAfter(fechaInicio)) {
             throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio");
         }
         //existente.setNombre(nuevosDatos.getNombre());
         //existente.setDescripcion(nuevosDatos.getDescripcion());
         //existente.setFechaIni(nuevosDatos.getFechaIni());
         //existente.setFechaFin(nuevosDatos.getFechaFin());
-        modelMapper.getConfiguration().setSkipNullEnabled(true);  
-        modelMapper.map(nuevosDatos,existente);        
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(nuevosDatos, existente);
         torneoRepository.save(existente);
-      
+
     }
 
     @Override
@@ -123,6 +125,7 @@ public class TorneoServiceImp implements TorneoService {
         TorneoDetalleDTO dto = new TorneoDetalleDTO();
         dto.setId(torneo.getId());
         dto.setNombre(torneo.getNombre());
+        dto.setDescripcion(torneo.getDescripcion());
         dto.setPublicado(torneo.getPublicado());
         dto.setTotalInscripciones(totalInscripciones);
         dto.setMontoTotal(montoTotal);
@@ -139,22 +142,24 @@ public class TorneoServiceImp implements TorneoService {
         torneoRepository.save(torneo);
     }
 //AREGLADO
+
     @Override
     public void cambiarEstadoAPublicado(Long idTorneo) {
         TorneoModel torneo = obtenerPorId(idTorneo);
+        validarTorneoNoPublicado(torneo);
+
+        if (torneo.getCompetencias().isEmpty()) {
+            throw new IllegalArgumentException("No se puede publicar un torneo sin competencias.");
+        }
 
         if (torneo.getFechaFin() == null || torneo.getFechaFin().isBefore(torneo.getFechaIni())) {
-        throw new IllegalArgumentException("La fecha de fin debe estar definida y ser igual o posterior a la fecha de inicio");
+            throw new IllegalArgumentException("La fecha de fin debe estar definida y ser igual o posterior a la fecha de inicio");
         }
 
-        if(torneo.getPublicado() != true){ 
-            torneo.setPublicado(true);
-            torneoRepository.save(torneo);
-        }else{
-            throw new IllegalArgumentException("El torneo ya esta publicado");
-        }
-    } 
-  
+        torneo.setPublicado(true);
+        torneoRepository.save(torneo);
+    }
+
     @Override
     public TorneoModel obtenerTorneoActivoParaInscripcion(Long id) {
         return findPublishedAndFutureTournaments().stream()
@@ -168,4 +173,10 @@ public class TorneoServiceImp implements TorneoService {
         return findPublishedAndInProgressTournaments();
     }
 
+    @Override
+    public void validarTorneoNoPublicado(TorneoModel torneo) {
+        if (Boolean.TRUE.equals(torneo.getPublicado())) {
+            throw new IllegalArgumentException("El torneo ya esta publicado");
+        }
+    }
 }
