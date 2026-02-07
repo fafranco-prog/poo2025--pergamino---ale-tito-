@@ -28,4 +28,6 @@ public interface TorneoService {
 
     public List<TorneoModel> getTorneosActivos();
 
+    public void validarTorneoNoPublicado(TorneoModel torneo);
+
 }
