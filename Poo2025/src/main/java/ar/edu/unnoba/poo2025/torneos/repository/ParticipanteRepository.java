@@ -13,6 +13,7 @@ public interface ParticipanteRepository extends JpaRepository<ParticipanteModel,
     @Query("SELECT p FROM ParticipanteModel p WHERE p.email = :email")
     public Optional<ParticipanteModel> buscarPorEmail(@Param("email") String email);
 
-    public Optional<ParticipanteModel> findByTipoDniAndNumeroDni(String tipoDni, Integer numeroDni);
-
+    public Optional<ParticipanteModel> findByTipoDniAndNumeroDni(String tipoDni, String numeroDni);
+                  
 }
+  
