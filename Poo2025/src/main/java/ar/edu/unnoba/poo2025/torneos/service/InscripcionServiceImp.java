@@ -27,6 +27,12 @@ public class InscripcionServiceImp implements InscripcionService {
     public List<InscripcionModel> obtenerInscripciones() {
         return inscripcionRepository.findAll();
     }
+    
+    @Override
+    public List<InscripcionModel> obtenerPorCompetenciaYTorneo(Long idCompetencia, Long idTorneo) {
+    return inscripcionRepository.buscarPorCompetenciaYTorneo(idCompetencia, idTorneo);
+    }
+
 
     @Override
     public InscripcionModel obtenerPorId(Long id) {

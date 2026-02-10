@@ -10,10 +10,10 @@ import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.InscripcionAdminDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
-import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 
 public interface AdministradorService {
 
@@ -54,5 +54,5 @@ public interface AdministradorService {
 
     public void cambiarEstadoAPublicado(Long idTorneo);
 
-    public List<InscripcionModel> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo);
+    public List<InscripcionAdminDTO> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo);
 }

@@ -14,6 +14,7 @@ import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearParticipanteRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.InscripcionAdminDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.InscripcionDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.InscripcionResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.ParticipanteRequestDTO;
@@ -174,6 +175,14 @@ public class ModelMapperConfig {
             mapper.map(TorneoModel::getFechaIni, TorneoActivoResponseDTO::setFechaInicio);
             mapper.map(TorneoModel::getFechaFin, TorneoActivoResponseDTO::setFechaFin);
         });
+        modelMapper.createTypeMap(InscripcionModel.class, InscripcionAdminDTO.class)
+        .addMappings(mapper -> {
+            mapper.map(src -> src.getParticipante().getNombre(), InscripcionAdminDTO::setNombreParticipante);
+            mapper.map(src -> src.getParticipante().getApellido(), InscripcionAdminDTO::setApellidoParticipante);
+            mapper.map(src -> src.getParticipante().getEmail(), InscripcionAdminDTO::setEmailParticipante);
+            mapper.map(InscripcionModel::getFechaInscripcion, InscripcionAdminDTO::setFecha);
+        });
+
 
         return modelMapper;
     }
