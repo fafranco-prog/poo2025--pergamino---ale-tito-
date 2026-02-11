@@ -24,5 +24,7 @@ public interface InscripcionService {
 
     public List<InscripcionModel> obtenerInscripcionesPorParticipante(Long participanteId);
     
+    public List<InscripcionModel> obtenerPorCompetenciaYTorneo(Long idCompetencia, Long idTorneo);
+
 }
 

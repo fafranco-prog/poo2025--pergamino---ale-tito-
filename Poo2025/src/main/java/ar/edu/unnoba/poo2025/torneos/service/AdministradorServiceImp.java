@@ -16,13 +16,13 @@ import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.InscripcionAdminDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
 import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
 import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
 import ar.edu.unnoba.poo2025.torneos.exception.SelfDeletionException;
 import ar.edu.unnoba.poo2025.torneos.model.AdministradorModel;
-import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.model.TorneoModel;
 import ar.edu.unnoba.poo2025.torneos.repository.AdministradorRepository;
 
@@ -181,7 +181,7 @@ public class AdministradorServiceImp implements AdministradorService {
     }
 
     @Override
-    public List<InscripcionModel> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo) {
+    public List<InscripcionAdminDTO> inscripcionesDeCompetencia(Long idCompetencia, Long idTorneo) {
         return competenciaService.inscripcionesCompetencia(idCompetencia, idTorneo);
     }
 }

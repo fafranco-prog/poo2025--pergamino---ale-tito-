@@ -25,9 +25,9 @@ import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearAdminRequestDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearTorneoDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.InscripcionAdminDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoDetalleDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.TorneoResponse2DTO;
-import ar.edu.unnoba.poo2025.torneos.model.InscripcionModel;
 import ar.edu.unnoba.poo2025.torneos.service.AdministradorService;
 import jakarta.validation.Valid;
 
@@ -147,9 +147,9 @@ public class AdministradorResource {
     }
 
     @GetMapping("/tournaments/{tournamentId}/competitions/{id}/inscriptions")
-    public ResponseEntity<List<InscripcionModel>> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long tournamentId, @PathVariable Long id) {
+    public ResponseEntity<List<InscripcionAdminDTO>> torneoPublicado(@RequestHeader("Authorization") String token, @PathVariable Long tournamentId, @PathVariable Long id) {
         adminService.autorizar(token);
-        List<InscripcionModel> inscripciones = adminService.inscripcionesDeCompetencia(id, tournamentId);
+        List<InscripcionAdminDTO> inscripciones = adminService.inscripcionesDeCompetencia(id, tournamentId);
         return new ResponseEntity<>(inscripciones, HttpStatus.OK);
     }
 

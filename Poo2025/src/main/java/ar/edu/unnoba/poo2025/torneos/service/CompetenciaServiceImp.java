@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaDetalleOutDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CompetenciaPorTorneoResponseDTO;
 import ar.edu.unnoba.poo2025.torneos.dto.CrearCompetenciaDTO;
+import ar.edu.unnoba.poo2025.torneos.dto.InscripcionAdminDTO;
 import ar.edu.unnoba.poo2025.torneos.exception.DuplicateResourceException;
 import ar.edu.unnoba.poo2025.torneos.exception.NotAllowedException;
 import ar.edu.unnoba.poo2025.torneos.exception.ResourceNotFoundException;
@@ -102,7 +103,7 @@ public class CompetenciaServiceImp implements CompetenciaService {
         competenciaRepository.delete(compe);
     }
 
-    @Override
+    /*@Override
     public List<InscripcionModel> inscripcionesCompetencia(Long idCompetencia, Long idTorneo) {
         TorneoModel torneo = torneoService.obtenerPorId(idTorneo);
         CompetenciaModel compe = obtenerPorId(idCompetencia);
@@ -115,7 +116,20 @@ public class CompetenciaServiceImp implements CompetenciaService {
                 .stream()
                 .filter(ins -> ins.getCompetencia().getId().equals(idCompetencia))
                 .toList();
-    }
+    }*/
+    @Override
+    public List<InscripcionAdminDTO> inscripcionesCompetencia(Long idCompetencia, Long idTorneo) {
+        CompetenciaModel compe = obtenerPorId(idCompetencia);
+        if (!compe.getTorneo().getId().equals(idTorneo)) {
+            throw new ResourceNotFoundException("La competencia no pertenece al torneo indicado.");
+        }
+
+        List<InscripcionModel> inscripciones = inscripcionService.obtenerPorCompetenciaYTorneo(idCompetencia, idTorneo);
+
+        return inscripciones.stream()
+            .map(ins -> modelMapper.map(ins, InscripcionAdminDTO.class))
+            .toList();
+        }
 
     @Override
     public CompetenciaModel obtenerCompetenciaDeTorneo(TorneoModel torneo, Long competenciaId) {
