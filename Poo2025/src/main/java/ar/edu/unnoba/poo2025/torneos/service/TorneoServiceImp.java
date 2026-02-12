@@ -170,7 +170,7 @@ public class TorneoServiceImp implements TorneoService {
 
     @Override
     public List<TorneoModel> getTorneosActivos() {
-        return findPublishedAndInProgressTournaments();
+        return this.findPublishedAndFutureTournaments();
     }
 
     @Override
